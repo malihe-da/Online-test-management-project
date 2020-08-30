@@ -1,38 +1,24 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
     <title>Maktab Home</title>
-
-   <style type="text/css">
-       body{
-           background-color: PaleTurquoise;
-       }
-       .button {
-           background-color: MidnightBlue;
-           border: none;
-           color: white;
-           padding: 15px 32px;
-           text-align: center;
-           text-decoration: none;
-           display: inline-block;
-           font-size: 16px;
-           margin: 4px 2px;
-           cursor: pointer;
-       }
-   </style>
+    <link href="<c:url value="/resources/theme/css/style1.css"/>" rel="stylesheet" />
+    <link href="<c:url value="/resources/theme/css/test.js"/>" rel="stylesheet" />
 </head>
 <body>
 
 <div  align="center" >
-    <br><br><h1>Welcome to Maktab</h1><br><br>
+    <br><br><h1>Welcome to Maktab online exam</h1><br><br>
 </div>
 
 <div class="container" class="container" position="flex">
 
+    <div  class="child"  position="absolute"></div>
 <div  class="child" position="absolute">
     <form action="login" method="GET">
         <fieldset>

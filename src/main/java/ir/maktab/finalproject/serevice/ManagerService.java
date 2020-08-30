@@ -3,7 +3,6 @@ package ir.maktab.finalproject.serevice;
 import ir.maktab.finalproject.model.dao.CourseDao;
 import ir.maktab.finalproject.model.dao.ManagerDao;
 import ir.maktab.finalproject.model.dao.UserDao;
-import ir.maktab.finalproject.model.dto.UserDto;
 import ir.maktab.finalproject.model.entity.Course;
 import ir.maktab.finalproject.model.entity.Manager;
 import ir.maktab.finalproject.model.entity.User;

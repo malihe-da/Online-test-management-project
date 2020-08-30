@@ -2,6 +2,8 @@ package ir.maktab.finalproject.model.dao;
 
 
 import ir.maktab.finalproject.model.entity.Course;
+import ir.maktab.finalproject.model.entity.Exam;
+import org.hibernate.annotations.QueryHints;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,13 +20,11 @@ import java.util.Optional;
 @org.springframework.stereotype.Repository
 public interface CourseDao extends CrudRepository<Course, Integer> {
 
-    Optional<Course> findCourseById(Integer id);
-
-
     List<Course> findAll();
 
     Course getCourseById(Integer id);
     Optional<Course> getCourseByCourseTitle(String title);
+    Course getCourseByCourseClassification(String classification);
 
     @Modifying
     @Query("update Course set courseTitle=:newTitle where id=:id")

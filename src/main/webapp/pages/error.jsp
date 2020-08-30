@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Welcome</title>
+    <title>Error</title>
     <style>
         body{
             background-color: crimson;
@@ -21,7 +21,7 @@
         <h3>
             "ERROR"
         </h3>
-        <label style="color: darkblue"> "${errorMsg}" </label>
+        <label style="color: darkblue"> ${errorMsg} </label>
     </div></td>
     <tr>
     </tr>

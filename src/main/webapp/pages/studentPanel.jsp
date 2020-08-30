@@ -18,7 +18,7 @@
     <tr>
     </tr>
     <td><div align="center">
-        <p>${user.name}, welcome to student panel</p>
+        <p>${user.name} ${user.family}, welcome to student panel</p>
     </div></td>
     <tr>
     </tr>

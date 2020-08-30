@@ -1,8 +1,6 @@
 package ir.maktab.finalproject.controller;
 
 
-import ir.maktab.finalproject.model.dto.UserDto;
-import ir.maktab.finalproject.model.entity.Course;
 import ir.maktab.finalproject.model.entity.Manager;
 import ir.maktab.finalproject.model.entity.User;
 import ir.maktab.finalproject.serevice.CourseService;
@@ -44,15 +42,12 @@ public class ManagerController {
     @RequestMapping(value = "managerLoginProcess", method =RequestMethod.GET)
     public String managerLoginProcess(@ModelAttribute("manager") Manager manager,
                             HttpServletRequest request,
-                            Model model,
-                            RedirectAttributes redirectAttributes) {
+                            Model model) {
 
         Manager oldManager = managerService.checkOldManager(manager.getEmailAddress(), manager.getPassword());
-
         if (oldManager == null) {
-            redirectAttributes.addAttribute("errMsg", "Invalid email address and password!");
-            redirectAttributes.addAttribute("errorAdditionalDescription", "YInvalid email address and password!");
-            return "redirect:/error";
+            model.addAttribute("errorMsg", "Invalid email address or password!");
+            return "error";
         }
 
         model.addAttribute("manager", oldManager);

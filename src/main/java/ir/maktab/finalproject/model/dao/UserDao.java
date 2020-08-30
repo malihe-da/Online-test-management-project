@@ -1,7 +1,5 @@
 package ir.maktab.finalproject.model.dao;
 
-
-import ir.maktab.finalproject.model.dto.UserDto;
 import ir.maktab.finalproject.model.entity.Course;
 import ir.maktab.finalproject.model.entity.User;
 import org.springframework.data.jpa.domain.Specification;
@@ -27,8 +25,6 @@ public interface UserDao extends CrudRepository<User, Integer> {
 
     List<User> findAll();
     List<User> findAllByCourses(Course courses);
-    List<User> findAllByStatus(String status);
-    List<User> findAllByUserRole(String role);
 
     @Modifying
     @Query("update User set userRole=:newRole where id=:id")

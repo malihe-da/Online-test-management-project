@@ -40,7 +40,7 @@
                 <form:label path="password">Password</form:label>
             </td>
             <td>
-                <form:input type="password" path="password" name="password" required="required" />
+                <form:input path="password" name="password" required="required" />
             </td>
         </tr>
         <tr>

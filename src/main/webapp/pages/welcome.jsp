@@ -18,7 +18,7 @@
     <tr>
     </tr>
     <td><div align="center">
-            <h2>Your information has been successfully registered</h2>
+            <h2>${user.name} ${user.family}, Your information has been successfully registered</h2>
         <p> Wait for the administrator to confirm.</p>
     </div></td>
     <tr>

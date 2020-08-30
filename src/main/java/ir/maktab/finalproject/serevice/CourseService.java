@@ -6,6 +6,7 @@ import ir.maktab.finalproject.model.dao.UserDao;
 import ir.maktab.finalproject.model.entity.Course;
 import ir.maktab.finalproject.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-//@Transactional
+@Transactional
 public class CourseService {
 
     CourseDao courseDao;
@@ -60,8 +61,8 @@ public class CourseService {
         return (!found.isPresent());
     }
 
-    public void updateCourseClassification(Course course, String newClassification) {
-        courseDao.updateClassification(course.getId(), newClassification);
+    public Course getCourseByClassification(String classification) {
+        return courseDao.getCourseByCourseClassification(classification);
     }
 
     public void deleteCourse(Course course){

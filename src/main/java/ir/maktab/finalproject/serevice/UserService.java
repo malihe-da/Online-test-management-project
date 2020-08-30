@@ -3,7 +3,6 @@ package ir.maktab.finalproject.serevice;
 
 import ir.maktab.finalproject.model.dao.UserDao;
 import ir.maktab.finalproject.model.dao.UserSpecifications;
-import ir.maktab.finalproject.model.dto.UserDto;
 import ir.maktab.finalproject.model.entity.Course;
 import ir.maktab.finalproject.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;

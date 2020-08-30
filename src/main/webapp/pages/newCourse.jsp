@@ -28,14 +28,6 @@
     <table align="center">
         <tr>
             <td>
-                <form:label path="id">Id</form:label>
-            </td>
-            <td>
-                <form:input path="id" name="id" />
-            </td>
-        </tr>
-        <tr>
-            <td>
                 <form:label path="courseTitle">Course Title</form:label>
             </td>
             <td>
@@ -67,7 +59,7 @@
 </form:form>
 
 
-<p align="center"><a href="/">Home</a></p>
 <p align="center"><a href="/managerPanel">Manager Panel</a></p>
+<p align="center"><a href="/">Home</a></p>
 </body>
 </html>

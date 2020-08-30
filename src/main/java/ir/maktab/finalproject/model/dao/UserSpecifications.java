@@ -1,8 +1,5 @@
 package ir.maktab.finalproject.model.dao;
 
-
-import ir.maktab.finalproject.model.dto.UserDto;
-import ir.maktab.finalproject.model.entity.Course;
 import ir.maktab.finalproject.model.entity.User;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.CollectionUtils;
