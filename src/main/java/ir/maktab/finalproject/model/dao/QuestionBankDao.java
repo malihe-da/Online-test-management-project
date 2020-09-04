@@ -9,4 +9,5 @@ import java.util.List;
 public interface QuestionBankDao extends CrudRepository<QuestionsBank, Integer> {
 
     List<QuestionsBank> findAll();
+    List<QuestionsBank> findAllByQuestionClassification(String classification);
 }

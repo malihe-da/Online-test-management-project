@@ -16,13 +16,16 @@ public interface QuestionDao extends CrudRepository<Question, Integer> {
     List<Question> findAll();
 
     Question getQuestionById(Integer id);
+    Question getQuestionByQuestionFace(String face);
 
     List<Question> findAll(Specification<Question> questionMaxMatch);
+
     static Specification<Question> findQuestionMaxMatch(Integer id,
-                                                      String type,
-                                                      String questionDescription,
-                                                      Integer authorId,
-                                                      String questionFace) {
+                                                        String type,
+                                                        String questionDescription,
+                                                        String questionClassification,
+                                                        Integer authorId,
+                                                        String questionFace) {
         return (Specification<Question>) (root, criteriaQuery, builder) -> {
             CriteriaQuery<Question> resultCriteria = builder.createQuery(Question.class);
 
@@ -35,6 +38,9 @@ public interface QuestionDao extends CrudRepository<Question, Integer> {
             }
             if (!StringUtils.isEmpty(questionDescription) && questionDescription != null) {
                 predicates.add(builder.in(root.get("questionDescription")).value(questionDescription));
+            }
+            if (!StringUtils.isEmpty(questionClassification) && questionClassification != null) {
+                predicates.add(builder.in(root.get("questionClassification")).value(questionClassification));
             }
             if (authorId != null && authorId > 0) {
                 predicates.add(builder.equal(root.get("authorId"), authorId));

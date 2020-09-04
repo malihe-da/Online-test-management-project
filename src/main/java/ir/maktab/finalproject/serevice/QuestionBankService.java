@@ -14,19 +14,20 @@ public class QuestionBankService {
 
     QuestionBankDao questionBankDao;
     QuestionDao questionDao;
+    List<Question> questionList;
 
     public QuestionBankService(QuestionBankDao questionBankDao, QuestionDao questionDao) {
         this.questionBankDao = questionBankDao;
         this.questionDao = questionDao;
     }
 
-    public void addQuestionIdToBank(Integer questionId){
-        QuestionsBank questionsBank = new QuestionsBank(questionId);
+    public void addQuestionIdToBank(Question question){
+        QuestionsBank questionsBank = new QuestionsBank(question.getId(), question.getQuestionClassification());
         questionBankDao.save(questionsBank);
     }
 
     public List<Question> getQuestionsInBank(){
-        List<Question> questionList = new ArrayList<>();
+         questionList = new ArrayList<>();
         List<Question> questions = questionDao.findAll();
         List<QuestionsBank> questionsBanks= questionBankDao.findAll();
         for (QuestionsBank qb:
@@ -40,6 +41,24 @@ public class QuestionBankService {
             }
         }
         return questionList;
+    }
+
+    public List<String> getClassifiedQuestionsInBank( String classification){
+        List<String> questionFaceList = new ArrayList<>();
+        List<Question> questions = questionDao.findAll(QuestionDao.findQuestionMaxMatch(0, null, null,
+                classification, null, null));
+        List<QuestionsBank> questionsBanks= questionBankDao.findAllByQuestionClassification(classification);
+        for (QuestionsBank qb:
+             questionsBanks) {
+            int id= qb.getQuestionId();
+            for (Question question:
+                questions ) {
+                if(question.getId()==id){
+                    questionFaceList.add(question.getQuestionFace());
+                }
+            }
+        }
+        return questionFaceList;
     }
 
 }

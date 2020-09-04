@@ -10,6 +10,7 @@ import org.springframework.security.core.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,28 @@ public class CourseService {
 
     public List<Course> getAllCourses(){
         return courseDao.findAll();
+    }
+    public List<String > getAllCoursesClassifications(){
+    List<String> classifications = new ArrayList<>();
+        List<Course> courseList = courseDao.findAll();
+        for (Course cr:
+             courseList) {
+            String classify= cr.getCourseClassification();
+            if(!classifications.contains(classify))
+            classifications.add(classify);
+        }
+
+        return classifications;
+    }
+
+    public List<String> getAllCourseTitle(){
+    List<String> courseTitle = new ArrayList<>();
+    List<Course> courseList = getAllCourses();
+        for (Course cr:
+             courseList) {
+            courseTitle.add(cr.getCourseTitle());
+        }
+        return courseTitle;
     }
 
     public Course getCoursesById(Integer id){

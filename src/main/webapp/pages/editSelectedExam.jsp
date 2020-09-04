@@ -8,7 +8,7 @@
     <link href="<c:url value="/resources/theme/css/style1.css"/>" rel="stylesheet"/>
     <style>
         body {
-            background-color: lightskyblue;
+            background-color: lavender;
         }
 
         table, th, td {
@@ -23,7 +23,7 @@
 <div>
     <h2 style="color: darkblue">${user.name} ${user.family} panel!</h2>
 
-    <h4 style="color: green"> you can edit exam here and add some questions from Question
+    <h4 style="color: green"> you can edit exam here by adding some questions from Question
         Bank or define a new question.</h4><br><br><br>
 </div>
 
@@ -33,7 +33,7 @@
 
 </div>
 
-<form:form modelAttribute="exam" method="GET">
+<form:form modelAttribute="exam" action="showBankQuestion" method="GET">
     <div align="center">
         <table>
 
@@ -55,53 +55,58 @@
 
         </table>
 
+        <br><br><br><br><br><br>
+        <form:input type="hidden" path="id" name="examId" value="${exam.id}"/>
+        <label>You can select a question from question bank here:</label><br><br>
+        <input type=submit value="Show Bank Question"><br><br>
     </div>
-    <br><br><br><br><br><br>
+
 </form:form>
 
 
 <div align="center">
 
-    <label>You can select a question from question bank here:</label>
-
-    <form:form modelAttribute="bankQuestions" action="addSelectedQuestionToExam" method="GET">
+    <form:form modelAttribute="question" action="addSelectedQuestionToExam" method="GET">
 
         <table>
             <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Show Bank
-                    Question
+
                     <thead>
                     <tr>
-                        <td>Question Title</td>
-                        <td>Question Type</td>
-                        <td>Question Description</td>
-                        <td>Question Face</td>
-                        <td>Choose</td>
+                        <%--<th>Question Title</th>
+                        <th>Question Type</th>
+                        <th>Question Description</th>--%>
+                        <th>Question Face</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
+
+               <%-- <c:forEach items="${bankQuestions}" var="question">--%>
+                    <tr><%--
+                        <td>${question.questionTitle}</td>
+                        <td>${question.type}</td>
+                        <td>${question.questionDescription}</td>
+                        <td>${question.questionFace}</td>--%>
+
                         <td>
 
-                            <span class="caret"></span>
-                </button>
-                <c:forEach items="${bankQuestions}" var="question">
-                    <ul class="dropdown-menu">
-                        <li><a href="#">${question.questionTitle}</a></li>
-                        <li><a href="#">${question.type}</a></li>
-                        <li><a href="#">${question.questionDescription}</a></li>
-                        <li><a href="#">${question.questionFace}</a></li>
-                        <li><a href="#">
-                            <input type="hidden" name="questionFromBank" value="${question.id}">
                             <input type="hidden" name="selectedExamId" value="${exam.id}">
-                            <form:button name="submit">Add</form:button>
-                        </a></li>
-                    </ul>
-                </c:forEach>
-                </td>
-                </tr>
+
+
+                            <form:select path="questionFace" style="width:200px">
+                                <form:option value="NONE" label="Select"/>
+                                <form:options  items="${bankQuestions}" />
+                            </form:select>
+                        </td>
+                    </tr>
                 </tbody>
             </div>
+        </table>
+        <table align="center">
+
+            <tr>
+                <form:button name="submit">Select</form:button>
+            </tr>
         </table>
     </form:form>
     <br><br><br>
@@ -122,10 +127,11 @@
                     <tr>
                         <td>
                             <form:input type="hidden" path="examId" name="selectedExamId" value="${exam.id}"/>
-                            <form:label path="questionTitle">Question Title</form:label>
+                            <form:input type="hidden" path="questionClassification"  value="${exam.examClassification}"/>
+                            <form:label path="questionTitle">Question Title(Limit entering up to 5 characters)</form:label>
                         </td>
                         <td>
-                            <form:input path="questionTitle" name="questionTitle" required="required"/>
+                            <form:input path="questionTitle" name="questionTitle" maxlength="5" required="required"/>
                         </td>
                     </tr>
                     <tr>
@@ -168,7 +174,7 @@
 
                     <tr>
                         <td>
-                            <form:label path="questionBankAdded">Do you want to add it to Question Bank</form:label>
+                            <form:label path="questionBankAdded">Add to Question Bank?</form:label>
                         </td>
                         <td>
                             <form:radiobutton path="questionBankAdded" name="questionBankAdded" value="yes"/>yes<br>
@@ -196,17 +202,26 @@
                     <input type="button" value="Create Element" onclick="createNewElement();"/>
                 </div>
 
-                <div id="newElementId">New inputbox goes here:</div>
+                <div id="newElementId">New input box goes here:</div>
 
             </div>
         </fieldset>
 
     </div>
 </form:form>
-<%--
-<form:form action="endOfQuestionPlanning" method="GET">
-    <form:button name="submit">End of Exam</form:button>
-</form:form>--%>
+
+<form:form modelAttribute="exam" action="scoreDetermine" method="GET">
+    <div align="center">
+        <br><br><br><br><br><br>
+        <h3 style="color:darkorchid">If the test questions are finished, please specify the score of each question</h3>
+        <input type="hidden" name="selectedExamId" value="${exam.id}">
+        <form:button name="submit">Determine Score</form:button>
+        <br><br><br>
+    </div>
+
+
+</form:form>
+
 <div>
     <br><br><br>
     <p align="center"><a href="/teacherPanel">Teacher Panel</a></p>

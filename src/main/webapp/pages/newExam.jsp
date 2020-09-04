@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <html>
 <head>
@@ -13,18 +14,19 @@
 </head>
 <body>
 
-<div align="center">
+<div >
     <h3 style="color: crimson">${user.name} ${user.family}, you can define an exam here!</h3>
 </div>
 <div align="center">
-    <h3 style="color:darkgreen ">Fill the following field</h3>
-</div>
-<div align="center">
-    <h3>
-        <label style="color: darkgreen"> ${message} </label>
-    </h3>
+    <h2>
+        <br><br><label style="color: darkblue"> ${message} </label><br><br>
+    </h2>
 
 </div>
+<div align="center">
+    <h3 style="color:darkgreen ">To define a new exam please fill the following fields</h3>
+</div>
+
 <form:form modelAttribute="exam" action="add-newExam" method="GET">
     <table align="center">
         <tr>
@@ -33,6 +35,16 @@
             </td>
             <td>
                 <form:input path="examTitle" name="examTitle" required="required"/>
+            </td>
+        </tr> <tr>
+            <td>
+                <form:label path="examCourseTitle">Exam's Course Title</form:label>
+            </td>
+        <td>
+                <form:select path="examCourseTitle">
+                    <form:option value = "NONE" label = "Select"/>
+                    <form:options items="${courseTitle}"/>
+                </form:select>
             </td>
         </tr>
         <tr>

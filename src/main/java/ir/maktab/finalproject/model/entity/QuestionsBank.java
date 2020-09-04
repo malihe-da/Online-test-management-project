@@ -20,8 +20,10 @@ public class QuestionsBank {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     int questionId;
+    String questionClassification;
 
-    public QuestionsBank(int questionId) {
+    public QuestionsBank(int questionId, String questionClassification) {
         this.questionId = questionId;
+        this.questionClassification = questionClassification;
     }
 }

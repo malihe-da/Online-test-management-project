@@ -23,29 +23,32 @@ public class Question {
     Integer authorId;
     String questionFace;
     String keyAnswer;
-    int examId;
+    String questionClassification;
+    @Transient
+    double questionScore;
     @ElementCollection
     List<String> answerOptions;
     @Transient
     String questionBankAdded;
+    @Transient
+    int examId;
 
 
     @Override
-    public String toString() {
+    public String toString() {/*
         String answerList="";
         for(int i=0; i< answerOptions.size(); i++) {
             answerList= answerList + " " + i + ") " + answerOptions.get(i);
-        }
+        }*/
         return "Question{" +
                 "id=" + id +
                 ", type='" + type + '\'' +
                 ", questionTitle='" + questionTitle + '\'' +
                 ", questionDescription='" + questionDescription + '\'' +
                 ", authorId=" + authorId +
-                ", examId= " + examId+
                 ", questionFace='" + questionFace + '\'' +
                 ", keyAnswer='" + keyAnswer + '\'' +
-                ", answerOptions=" + answerList +
+               // ", answerOptions=" + answerList +
                 '}';
     }
 }

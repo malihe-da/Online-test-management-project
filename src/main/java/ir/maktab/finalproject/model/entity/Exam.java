@@ -7,11 +7,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -24,21 +20,32 @@ public class Exam {
     int id;
     String examTitle;
     String examDescription;
+    String examClassification;
     Integer examAuthorId;
-    String  examAuthorName;
+    String examAuthorName;
     String examAuthorFamily;
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     Date examStart;
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     Date examEnd;
     int duration;
-    @OneToMany(cascade = CascadeType.ALL)
-    List<Question> questions;
-    @ManyToOne
-    @JoinColumn(name = "course")
-    Course course;
+    @ManyToMany(cascade = CascadeType.ALL)
+    List<Question> questions = new ArrayList<>();
+    String examCourseTitle;
+    Double examMAxScore;
+    @ElementCollection
+    List<Double> questionScores;
+    @Transient
+    int questionSize;
+
+    public void addQuestion(Question question){
+        if(!this.questions.contains(question)) {
+            this.questions.add(question);
+        }
+        question.setExamId(this.id);
+    }
 
     @Override
     public String toString() {
@@ -46,14 +53,15 @@ public class Exam {
                 "id=" + id +
                 ", examTitle='" + examTitle + '\'' +
                 ", examDescription='" + examDescription + '\'' +
+                ", examClassification='" + examClassification + '\'' +
                 ", examAuthorId=" + examAuthorId +
                 ", examAuthorName='" + examAuthorName + '\'' +
                 ", examAuthorFamily='" + examAuthorFamily + '\'' +
                 ", examStart=" + examStart +
                 ", examEnd=" + examEnd +
                 ", duration=" + duration +
-                ", questions=" + questions +
-                ", course=" + course +
+                ", examCourseTitle='" + examCourseTitle + '\'' +
+                ", examMAxScore=" + examMAxScore +
                 '}';
     }
 }

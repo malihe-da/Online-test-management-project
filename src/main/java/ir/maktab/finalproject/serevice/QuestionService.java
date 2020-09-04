@@ -28,21 +28,25 @@ public class QuestionService {
         return questionDao.getQuestionById(id);
     }
 
+    public Question getQuestionByQuestionFace(String face){
+        return questionDao.getQuestionByQuestionFace(face);
+    }
+
     public List<Question> getAllTeacherDescriptiveQuestions(Integer authorId){
         return questionDao
-                .findAll(QuestionDao.findQuestionMaxMatch(0, "descriptive",
+                .findAll(QuestionDao.findQuestionMaxMatch(0, "descriptive", null,
                         null, authorId, null));
 
     }
     public List<Question> getAllTeacherMultipleChoiceQuestions(Integer authorId){
         return questionDao
-                .findAll(QuestionDao.findQuestionMaxMatch(0, "multipleChoice",
+                .findAll(QuestionDao.findQuestionMaxMatch(0, "multipleChoice", null,
                         null, authorId, null));
 
     }
     public List<Question> getAllTeacherQuestions(Integer authorId){
         return questionDao
-                .findAll(QuestionDao.findQuestionMaxMatch(0, null,
+                .findAll(QuestionDao.findQuestionMaxMatch(0, null, null,
                         null, authorId, null));
 
     }

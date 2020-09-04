@@ -26,8 +26,7 @@ public class Course {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Fetch(value = FetchMode.SUBSELECT)
     List<User> users = new ArrayList<>();
-    @OneToMany(mappedBy="course",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(cascade=CascadeType.ALL)
     List<Exam> exams;
 
 
