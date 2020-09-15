@@ -1,9 +1,12 @@
-package ir.maktab.finalproject.serevice;
+package ir.maktab.finalproject.service;
 
 
+import ir.maktab.finalproject.model.dao.ExamDao;
 import ir.maktab.finalproject.model.dao.UserDao;
 import ir.maktab.finalproject.model.dao.UserSpecifications;
+import ir.maktab.finalproject.model.entity.AnswerSheet;
 import ir.maktab.finalproject.model.entity.Course;
+import ir.maktab.finalproject.model.entity.Exam;
 import ir.maktab.finalproject.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,13 +14,14 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Transactional
 @Service
 public class UserService {
     UserDao userDao;
-
+    ExamDao examDao;
 
     public void userRegister(User user) {
         userDao.save(user);
@@ -37,6 +41,19 @@ public class UserService {
         return userDao.findAll();
     }
 
+    public void saveExamScoreToMap(AnswerSheet answerSheet) {
+        Optional<User> found = userDao.findById(answerSheet.getUser().getId());
+        Exam exam = examDao.getExamById(answerSheet.getExam().getId());
+        Double score = answerSheet.getTotalExamScore();
+        if (found.isPresent()) {
+            User user = found.get();
+            Map<Exam, Double> finalExamScore = user.getFinalExamScore();
+            finalExamScore.put(exam, score);
+            user.setFinalExamScore(finalExamScore);
+            userDao.save(user);
+        }
+    }
+
     public void changeUserRole(Integer id, String newRole) {
         userDao.updateUserRole(id, newRole);
     }
@@ -44,43 +61,44 @@ public class UserService {
     public void changeUserStatus(Integer id, String newStatus) {
         userDao.updateUserStatus(id, newStatus);
     }
-    public User getUserByEmailAddress(String email){
+
+    public User getUserByEmailAddress(String email) {
         return userDao.findByEmailAddressIgnoreCase(email);
     }
-    public User getUserById(Integer id){
-        Optional<User> found= userDao.findById(id);
-        if(found.isPresent()){
+
+    public User getUserById(Integer id) {
+        Optional<User> found = userDao.findById(id);
+        if (found.isPresent()) {
             return found.get();
         }
         return null;
     }
 
     public List<User> findMaxMatch(Integer id,
-                                            String userRole,
-                                            String name,
-                                            String family,
-                                            String status) {
+                                   String userRole,
+                                   String name,
+                                   String family,
+                                   String status) {
 
         return userDao.findAll(UserSpecifications.findMaxMatch(id, userRole, name, family, status));
     }
 
     public List<User> getAllUserInCourses(List<Course> courses) {
         List<User> userList = new ArrayList<>();
-        for (Course course:
-             courses) {
+        for (Course course :
+                courses) {
             userList.addAll(userDao.findAllByCourses(course));
         }
         return userList;
     }
+
     public List<User> getAllStudents() {
-        //return userDao.findAllByUserRole("student");
-        return userDao.findAll(UserSpecifications.findMaxMatch(null,"student", null,
+        return userDao.findAll(UserSpecifications.findMaxMatch(null, "student", null,
                 null, null));
     }
 
     public List<User> getAllTeachers() {
-        //return userDao.findAllByUserRole("teacher");
-        return userDao.findAll(UserSpecifications.findMaxMatch(null,"teacher", null,
+        return userDao.findAll(UserSpecifications.findMaxMatch(null, "teacher", null,
                 null, null));
     }
 
@@ -102,6 +120,7 @@ public class UserService {
         return false;
     }
 
+
     public boolean duplicateMailAddress(String mail) {
         Optional<User> found = userDao.findByEmailAddress(mail);
         if (found.isPresent())
@@ -114,4 +133,10 @@ public class UserService {
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
+
+    @Autowired
+    public void setExamDao(ExamDao examDao) {
+        this.examDao = examDao;
+    }
+
 }

@@ -3,16 +3,15 @@ package ir.maktab.finalproject.controller;
 
 import ir.maktab.finalproject.model.entity.Manager;
 import ir.maktab.finalproject.model.entity.User;
-import ir.maktab.finalproject.serevice.CourseService;
-import ir.maktab.finalproject.serevice.ManagerService;
-import ir.maktab.finalproject.serevice.UserService;
+import ir.maktab.finalproject.service.CourseService;
+import ir.maktab.finalproject.service.ManagerService;
+import ir.maktab.finalproject.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +40,6 @@ public class ManagerController {
 
     @RequestMapping(value = "managerLoginProcess", method =RequestMethod.GET)
     public String managerLoginProcess(@ModelAttribute("manager") Manager manager,
-                            HttpServletRequest request,
                             Model model) {
 
         Manager oldManager = managerService.checkOldManager(manager.getEmailAddress(), manager.getPassword());

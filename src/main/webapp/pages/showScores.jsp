@@ -23,11 +23,12 @@
 <div>
     <h2 style="color: darkblue">${user.name} ${user.family} panel!</h2>
 
-    <h4 style="color: green"> The score of each questions is as follows.</h4><br><br><br>
+
 </div>
 
 
 <div align="center">
+    <h4 style="color: green"> The score of each questions is as follows.</h4><br><br><br>
     <h3 style="color: crimson">The selected Exam ${exam.examTitle} has the following question until now:</h3>
 
 </div>
@@ -66,7 +67,7 @@
                 <th>Exam max Score</th>
             </tr>
             <tr>
-                   <td> ${exam.examMAxScore}</td>
+                   <td> ${exam.examMaxScore}</td>
             </tr>
         </table>
     </div>

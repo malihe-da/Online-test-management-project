@@ -41,7 +41,7 @@
                 <th>Question Type</th>
                 <th>Question Title</th>
                 <th>Question Description</th>
-                <th>Question Face</th>
+                <th>Question</th>
             </tr>
 
             <c:forEach items="${exam.questions}" var="question">
@@ -73,20 +73,11 @@
 
                     <thead>
                     <tr>
-                        <%--<th>Question Title</th>
-                        <th>Question Type</th>
-                        <th>Question Description</th>--%>
-                        <th>Question Face</th>
+                        <th >Question Face</th>
                     </tr>
                     </thead>
                     <tbody>
-
-               <%-- <c:forEach items="${bankQuestions}" var="question">--%>
-                    <tr><%--
-                        <td>${question.questionTitle}</td>
-                        <td>${question.type}</td>
-                        <td>${question.questionDescription}</td>
-                        <td>${question.questionFace}</td>--%>
+                    <tr>
 
                         <td>
 
@@ -113,9 +104,16 @@
 </div>
 
 
+<div align="center">
+    <h2>
+        <br><br><label style="color: darkblue"> ${message} </label><br><br>
+    </h2>
+
+</div>
+
 <form:form modelAttribute="question" action="create-newQuestion" method="GET">
     <div align="center">
-        <h3 style="color:darkgreen ">Create your question here:</h3><br><br>
+        <h3 style="color:crimson ">Create your question here:</h3><br><br>
     </div>
 
     <div class="container" class="container" position="flex">
@@ -128,10 +126,11 @@
                         <td>
                             <form:input type="hidden" path="examId" name="selectedExamId" value="${exam.id}"/>
                             <form:input type="hidden" path="questionClassification"  value="${exam.examClassification}"/>
-                            <form:label path="questionTitle">Question Title(Limit entering up to 5 characters)</form:label>
+                            <form:label path="questionTitle">Question Title</form:label>
                         </td>
                         <td>
-                            <form:input path="questionTitle" name="questionTitle" maxlength="5" required="required"/>
+                            <form:input path="questionTitle" name="questionTitle" maxlength="10" required="required"/><br>
+                            <input value="(Limit entering up to 10 characters)">
                         </td>
                     </tr>
                     <tr>
@@ -155,7 +154,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <form:label path="questionFace">Question Face</form:label>
+                            <form:label path="questionFace">Question</form:label>
                         </td>
                         <td>
                             <form:textarea path="questionFace" name="questionFace" rows="5" cols="30"

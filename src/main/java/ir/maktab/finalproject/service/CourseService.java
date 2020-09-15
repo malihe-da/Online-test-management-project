@@ -1,12 +1,12 @@
-package ir.maktab.finalproject.serevice;
+package ir.maktab.finalproject.service;
 
 
 import ir.maktab.finalproject.model.dao.CourseDao;
 import ir.maktab.finalproject.model.dao.UserDao;
 import ir.maktab.finalproject.model.entity.Course;
+import ir.maktab.finalproject.model.entity.Exam;
 import ir.maktab.finalproject.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +39,7 @@ public class CourseService {
     public List<Course> getAllCourses(){
         return courseDao.findAll();
     }
+
     public List<String > getAllCoursesClassifications(){
     List<String> classifications = new ArrayList<>();
         List<Course> courseList = courseDao.findAll();
@@ -62,6 +63,16 @@ public class CourseService {
         return courseTitle;
     }
 
+    public List<String> getAllUserCourseTitle(User user){
+        List<String> courseTitle = new ArrayList<>();
+        List<Course> courseList = user.getCourses();
+        for (Course cr:
+                courseList) {
+            courseTitle.add(cr.getCourseTitle());
+        }
+        return courseTitle;
+    }
+
     public Course getCoursesById(Integer id){
         return courseDao.getCourseById(id);
     }
@@ -74,9 +85,25 @@ public class CourseService {
         return null;
     }
 
-    public void updateCourseTitle(Course course, String newTitle) {
+    public void addExamToList(Exam exam){
+        Course course = exam.getCourse();
+        List<Exam> examList = course.getExams();
+        examList.add(exam);
+        course.setExams(examList);
+        courseDao.save(course);
+    }
 
-        courseDao.updateTitle(course.getId(), newTitle);
+    public int getNumberOfStudentOfCourse(Course course){
+    List<User> userList = course.getUsers();
+    int counter=0;
+        for (User user:
+             userList) {
+            if(user.getUserRole().toLowerCase().equals("student")){
+                counter+=1;
+            }
+        }
+
+        return counter;
     }
 
     public boolean checkCourseTitleIsUnique(String title){

@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -26,14 +27,21 @@ public class User {
     @JsonManagedReference
     @ManyToMany(mappedBy = "users")
     List<Course> courses = new ArrayList<>();
+    @ElementCollection
+    @MapKeyJoinColumn(name = "exam_id")
+    Map<Exam, Double> finalExamScore;
+    @OneToMany(mappedBy = "teacher", cascade=CascadeType.ALL)
+    List<Exam> teacherRegisteredExams;
+    @Transient
+    List<String > userAnswerSheet;
 
 
     @Override
     public String toString() {
-        String coursList="";
+        String courseList="";
         for (Course cr:
              courses) {
-            coursList = coursList + cr.getCourseTitle() + " ";
+            courseList = courseList + cr.getCourseTitle() + " ";
         }
         return "User{" +
                 "id=" + id +
@@ -43,7 +51,7 @@ public class User {
                 ", emailAddress='" + emailAddress + '\'' +
                 ", status='" + status + '\'' +
                 ", isEnabled=" + isEnabled +
-                ", courses=" + coursList +
+                ", courses=" + courseList +
                 '}';
     }
 }

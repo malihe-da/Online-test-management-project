@@ -1,3 +1,6 @@
+<%@ page import="static ir.maktab.finalproject.model.entity.AnswerSheet_.exam" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
@@ -32,49 +35,56 @@
 
 </div>
 
-<form:form modelAttribute="exam" action="examScoreComplete" method="GET">
-    <div class="container" class="container" position="flex">
-        <div class="child" position="absolute"></div>
-        <fieldset>
-            <div class="child" position="absolute">
-                <div align="center">
-                    <table>
+<form:form modelAttribute="questionList" action="examScoreComplete" method="GET">
+    <div align="center">
+        <table>
 
-                        <tr>
-                            <th>Question Title</th>
-                            <th>Question Type</th>
-                            <th>Question Description</th>
-                            <th>Question Face</th>
-                        </tr>
-                        <form:input type="hidden" path="id" name="selectedExamId" value="${exam.id}"/>
-                        <c:forEach items="${exam.questions}" var="question">
-                            <tr>
-                                <td>${question.questionTitle}</td>
-                                <td>${question.type}</td>
-                                <td>${question.questionDescription}</td>
-                                <td>${question.questionFace}</td>
-                            </tr>
-                        </c:forEach>
+            <tr>
 
-                    </table>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th scope="col">Question</th>
+                <th>Score</th>
+            </tr>
+            <input type="hidden" path="examId" name="examId" value="${examId}"/>
 
-                </div>
-            </div>
-        </fieldset>
-        <fieldset>
-            <div class="child" position="absolute" align="center">
+            <c:forEach items="${questionList}" var="question" varStatus="status">
+                <tr>
+                    <td>${question.questionTitle}</td>
+                    <td>${question.type}</td>
+                    <td>${question.questionDescription}</td>
+                    <td>
+                        <input value="${question.questionFace}" rows="5" cols="30"></td>
+                    <td>
+                            <%--<form:label path="questionScoresMap['${question.key}']"></form:label>--%>
+                        <label >
+                            <input  name="value"
+                                   required="required"/>
+                        </label>
 
-                <div id="dynamicCheck">
-                    <input type="hidden" value="0" id="total_chq">
-                    <input type="hidden" value="questionSize" id="exam_end">
-                    <input type="button" value="Create Element" onclick="createNewElement();"/>
-                </div>
 
-                <div id="newElementId">Question Score</div>
+                    </td>
+                </tr>
+            </c:forEach>
 
-            </div>
-        </fieldset>
+        </table>
+        <%--<form:input type="hidden" path="questionScoresMap" value="exam.questionScoresMap"/>--%>
     </div>
+
+    <%--<fieldset>
+        <div class="child" position="absolute" align="center">
+
+            <div id="dynamicCheck">
+                <input type="hidden" value="0" id="total_chq">
+                <input type="hidden" value="questionSize" id="exam_end">
+                <input type="button" value="Create Element" onclick="createNewElement();"/>
+            </div>
+
+            <div id="newElementId">Question Score</div>
+
+        </div>
+    </fieldset>--%>
     <div align="center">
         <br><br><br><br><br><br>
         <h3 style="color:darkorchid">End of scoring</h3>
@@ -96,7 +106,7 @@
 <script type="text/JavaScript">
 
     function createNewElement() {
-        var counter = document.getElementById("total_chq").value;
+        var qId = document.getElementById("total_chq").value;
         var max = document.getElementById("exam_end").value;
 
         if (counter < max) {

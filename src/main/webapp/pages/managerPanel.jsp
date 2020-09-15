@@ -6,7 +6,7 @@
     <title>ManagerPanel</title>
     <style>
         body{
-            background-color: gold;
+            background-color: gainsboro;
         }
 
     </style>

@@ -21,4 +21,5 @@ public class Manager {
     String family;
     String emailAddress;
     String password;
+    String userRole;
 }

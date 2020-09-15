@@ -7,7 +7,7 @@
     <title>Fill Course</title>
     <style>
         body {
-            background-color: lightpink;
+            background-color: gainsboro;
         }
 
         table, th, td {
@@ -74,20 +74,21 @@
 </form:form>
 
     <form:form modelAttribute="examList" id="examListByCourseClass" method="GET">
+
     <div align="center">
         <h3 style="color:darkgreen ">You can edit your exam only.</h3>
     </div>
-
-    <table align="center">
+<div id="states">
+    <table align="center" >
         <tr>
-            <th>Exam Id</th>
-            <th>Exam Title</th>
-            <th>Exam Classification</th>
-            <th>Exam Description</th>
-            <th>Exam Author Name</th>
-            <th>Exam Author Family</th>
-            <th>Exam Start At</th>
-            <th>Exam End At</th>
+            <th> Number</th>
+            <th> Title</th>
+            <th> Classification</th>
+            <th> Description</th>
+            <th> Author Name</th>
+            <th> Author Family</th>
+            <th> Start At</th>
+            <th> End At</th>
         </tr>
 
         <c:forEach items="${examList}" var="exam">
@@ -96,13 +97,14 @@
                 <td>${exam.examTitle}</td>
                 <td>${exam.examClassification}</td>
                 <td>${exam.examDescription}</td>
-                <td>${exam.examAuthorName}</td>
-                <td>${exam.examAuthorFamily}</td>
-                <td>${exam.examStart}</td>
-                <td>${exam.examEnd}</td>
+                <td>${exam.teacher.name}</td>
+                <td>${exam.teacher.family}</td>
+                <td>${exam.startDate}</td>
+                <td>${exam.endDate}</td>
             </tr>
         </c:forEach>
     </table>
+        </div>
     </form:form>
     <div align="center">
         <h3 style="color:darkgreen ">Enter the exam you want to edit</h3>
@@ -112,7 +114,7 @@
         <table align="center">
             <tr>
                 <td>
-                    <label path="examId">Exam Id</label>
+                    <label path="examId">Exam Number</label>
                     <input type="number" name="examId"/>
                 </td>
                 <td>
@@ -126,7 +128,38 @@
     </form>
 
 
-    <p align="center"><a href="/teacherPanel">Teacher Panel</a></p>
-    <p align="center"><a href="/">Home</a></p>
+    <p align="center"><a href="<c:url value="/teacherPanel"/>">Teacher Panel</a></p>
+    <p align="center"><a href="<c:url value="/"/>">Home</a></p>
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script th:inline="javascript">
+/*    window.onload = function() {
+       var select_location = document.getElementById('choice');
+        if(select_location[select_location.selectedIndex].value === 'NONE')
+        {
+            document.getElementById('states_div').style.display = 'block';
+        }
+        else
+        {
+            document.getElementById('states_div').style.display = 'none';
+        }
+    };*/
+    $(document).ready(function(){
+        $("select").change(function(){
+            $(this).find("option:selected").each(function(){
+                var optionValue = $(this).attr("value");
+                if(optionValue){
+                    $(".box").not("." + optionValue).hide();
+                    $(#states).show();
+                } else{
+                    $(#states).hide();
+                }
+            });
+        }).change();
+    });
+</script>
 </body>
 </html>

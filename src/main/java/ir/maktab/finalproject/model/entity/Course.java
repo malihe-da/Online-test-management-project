@@ -23,25 +23,21 @@ public class Course {
     String courseTitle;
     String courseClassification;
     @JsonBackReference
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL)
     @Fetch(value = FetchMode.SUBSELECT)
     List<User> users = new ArrayList<>();
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="course", cascade=CascadeType.ALL)
     List<Exam> exams;
 
 
     @Override
     public String toString() {
-        String userNames = "";
-        for (User user:
-             users) {
-            userNames= userNames + user.getEmailAddress() + ", ";
-        }
         return "Course{" +
                 "id=" + id +
                 ", courseTitle='" + courseTitle + '\'' +
                 ", courseClassification='" + courseClassification + '\'' +
-                ", users=" + userNames+
+                ", users=" + users +
+                ", exams=" + exams +
                 '}';
     }
 }

@@ -24,6 +24,8 @@ public class Question {
     String questionFace;
     String keyAnswer;
     String questionClassification;
+    @ManyToMany
+    List<Exam> examList;
     @Transient
     double questionScore;
     @ElementCollection

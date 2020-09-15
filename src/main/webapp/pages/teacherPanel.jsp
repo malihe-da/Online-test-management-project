@@ -8,7 +8,7 @@
     <title>TeacherPanel</title>
     <style>
         body {
-            background-color: lightpink;
+            background-color: gainsboro;
         }
 
         table, th, td {
@@ -30,14 +30,12 @@
 
 <table align="center">
     <tr>
-        <th>Course Id</th>
         <th>Course Title</th>
         <th>Course Classification</th>
     </tr>
 
     <c:forEach items="${user.courses}" var="course">
         <tr>
-            <td>${course.id}</td>
             <td>${course.courseTitle}</td>
             <td>${course.courseClassification}</td>
         </tr>
@@ -45,8 +43,11 @@
 
 
 </table>
-<p align="center"><a href="/allCourseExam">All Exam of a Selected Course</a></p>
+<p align="center"><a href="/allCourseExam">All Defined Exam</a></p>
 <p align="center"><a href="/new-exam">New Exam</a></p>
+<p align="center"><a href="/determine_exam_status_report">Exam Status</a></p>
+<p align="center"><a href="/determine_exam_status_report">Exam Report</a></p>
+<p align="center"><a href="/choose_descriptive_exam">Correcting the descriptive test sheet</a></p>
 <p align="center"><a href="/">Home</a></p>
 </body>
 </html>

@@ -2,6 +2,8 @@ package ir.maktab.finalproject.model.dao;
 
 import ir.maktab.finalproject.model.entity.Exam;
 import ir.maktab.finalproject.model.entity.Question;
+import ir.maktab.finalproject.model.entity.User;
+import ir.maktab.finalproject.model.enums.Type;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +24,8 @@ public interface ExamDao extends CrudRepository<Exam, Integer> {
     List<Exam> findAll();
     List<Exam> findAll(Specification<Exam> courseMaxMatch);
 
+    Exam getExamByExamTitle(String title);
+
     @Modifying
     @Query("update Exam set questions=:questions where id=:id")
     void updateQuestionList(@Param("id") Integer id, @Param("questions") List<Question> questions);
@@ -30,7 +34,7 @@ public interface ExamDao extends CrudRepository<Exam, Integer> {
                                                   String examTitle,
                                                   String examClassification,
                                                   String examDescription,
-                                                  Integer authorId) {
+                                                  User teacher, Type examType) {
         return (Specification<Exam>) (root, criteriaQuery, builder) -> {
             CriteriaQuery<Exam> resultCriteria = builder.createQuery(Exam.class);
 
@@ -38,17 +42,20 @@ public interface ExamDao extends CrudRepository<Exam, Integer> {
             if (id != null && id > 0) {
                 predicates.add(builder.equal(root.get("id"), id));
             }
-            if (!StringUtils.isEmpty(examTitle) && examTitle != null) {
+            if (!StringUtils.isEmpty(examTitle)) {
                 predicates.add(builder.equal(root.get("examTitle"), examTitle));
             }
-            if (!StringUtils.isEmpty(examClassification) && examClassification != null && !examClassification.equals("NONE")) {
+            if (!StringUtils.isEmpty(examClassification)  && !examClassification.equals("NONE")) {
                 predicates.add(builder.in(root.get("examClassification")).value(examClassification));
             }
-            if (!StringUtils.isEmpty(examDescription) && examDescription != null) {
+            if (!StringUtils.isEmpty(examDescription)) {
                 predicates.add(builder.in(root.get("examDescription")).value(examDescription));
             }
-            if (authorId != null && authorId > 0) {
-                predicates.add(builder.equal(root.get("authorId"), authorId));
+            if (teacher!=null) {
+                predicates.add(builder.in(root.get("teacher")).value(teacher));
+            }
+            if (examType!=null) {
+                predicates.add(builder.in(root.get("examType")).value(examType));
             }
             resultCriteria.select(root).where(predicates.toArray(new Predicate[0]));
             return resultCriteria.getRestriction();

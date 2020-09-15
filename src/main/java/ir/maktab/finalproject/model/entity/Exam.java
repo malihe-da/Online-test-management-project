@@ -1,5 +1,7 @@
 package ir.maktab.finalproject.model.entity;
 
+import ir.maktab.finalproject.model.enums.Status;
+import ir.maktab.finalproject.model.enums.Type;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,31 +23,48 @@ public class Exam {
     String examTitle;
     String examDescription;
     String examClassification;
-    Integer examAuthorId;
-    String examAuthorName;
-    String examAuthorFamily;
+    Status status;
+    @ManyToOne
+    User teacher;
+    @ManyToOne
+    Course course;
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    Date examStart;
+    Date startDate;
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    Date examEnd;
+    Date endDate;
     int duration;
     @ManyToMany(cascade = CascadeType.ALL)
     List<Question> questions = new ArrayList<>();
     String examCourseTitle;
-    Double examMAxScore;
+    Double examMaxScore;
     @ElementCollection
+    @MapKeyJoinColumn(name = "question_id")
+    Map<Question, Double> questionScoresMap;
+    Type examType;
+
+    @Transient
     List<Double> questionScores;
     @Transient
-    int questionSize;
+    int questionCount;
+    @Transient
+    int listQueueNumber;
+    @Transient
+    private Date start;
+    @Transient
+    private Date finish;
 
-    public void addQuestion(Question question){
-        if(!this.questions.contains(question)) {
+    @Transient
+    private Map<String, String> questionScoreAssign;
+
+    public void addQuestion(Question question) {
+        if (!this.questions.contains(question)) {
             this.questions.add(question);
         }
         question.setExamId(this.id);
     }
+
 
     @Override
     public String toString() {
@@ -54,14 +73,17 @@ public class Exam {
                 ", examTitle='" + examTitle + '\'' +
                 ", examDescription='" + examDescription + '\'' +
                 ", examClassification='" + examClassification + '\'' +
-                ", examAuthorId=" + examAuthorId +
-                ", examAuthorName='" + examAuthorName + '\'' +
-                ", examAuthorFamily='" + examAuthorFamily + '\'' +
-                ", examStart=" + examStart +
-                ", examEnd=" + examEnd +
+                ", user=" + teacher +
                 ", duration=" + duration +
+                ", questions=" + questions +
                 ", examCourseTitle='" + examCourseTitle + '\'' +
-                ", examMAxScore=" + examMAxScore +
+                ", examMAxScore=" + examMaxScore +
+                ", questionScoresMap=" + questionScoresMap +
+                ", questionScores=" + questionScores +
+                ", questionCount=" + questionCount +
+                ", start=" + start +
+                ", finish=" + finish +
+                ", questionScoreAssign=" + questionScoreAssign +
                 '}';
     }
 }

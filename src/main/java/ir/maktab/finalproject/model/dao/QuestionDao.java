@@ -16,7 +16,7 @@ public interface QuestionDao extends CrudRepository<Question, Integer> {
     List<Question> findAll();
 
     Question getQuestionById(Integer id);
-    Question getQuestionByQuestionFace(String face);
+    Question getFirstQuestionByQuestionFaceAndAndQuestionClassification(String face, String classification);
 
     List<Question> findAll(Specification<Question> questionMaxMatch);
 

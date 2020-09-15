@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>StudentPanel</title>
+    <title>StudentExamList</title>
     <style>
         body {
             background-color: gold;
@@ -19,63 +19,66 @@
 </head>
 <body>
 <div>
-    <p>${user.name} ${user.family}, welcome to student panel!</p>
+    <p>${user.name} ${user.family} panel!</p>
 </div>
 
 <div align="center">
-    <h2>
-        <br><br><label style="color: darkblue"> ${message} </label><br><br>
-    </h2>
-
-</div>
-
-<div align="center">
-    <h3 style="color:darkgreen ">Your Courses</h3>
+    <h3 style="color:darkgreen ">The ${selectedCourse.courseTitle} has following exams</h3>
 </div>
 <table align="center">
     <tr>
-        <th>Course Id</th>
-        <th>Course Title</th>
-        <th>Course Classification</th>
+        <th> Title</th>
+        <th> Description</th>
+        <th> Classification</th>
+        <th> Author</th>
+        <th> Duration</th>
+        <th> Total Score</th>
     </tr>
 
-    <c:forEach items="${user.courses}" var="course">
+    <c:forEach items="${examList}" var="exam">
         <tr>
-            <td>${course.id}</td>
-            <td>${course.courseTitle}</td>
-            <td>${course.courseClassification}</td>
+            <td>${exam.examTitle}</td>
+            <td>${exam.examDescription}</td>
+            <td>${exam.examClassification}</td>
+            <td>${exam.teacher.name} ${exam.teacher.family}</td>
+            <td>${exam.duration} (min)</td>
+            <td>${exam.examMaxScore} (min)</td>
         </tr>
     </c:forEach>
 </table>
 
 <div align="center">
 
-    <form:form modelAttribute="course" action="selectCourseToSeeExams" method="GET">
+    <form:form modelAttribute="exam" action="examStartProcess" method="GET">
 
         <div align="center">
-            <br><br><h3>Select Course</h3>
-            <p>${user.name}, select the course to see the list of exams </p>
+            <br><br><h3>Select Exam</h3>
+            <p>${user.name}, select the Exam Title to start the exams </p>
         </div>
+
         <table align="center">
+
             <tbody>
             <tr>
                 <td>
-                    <form:select path="courseTitle" style="width:200px">
+                    <form:select path="examTitle" style="width:200px">
                         <form:option value="NONE" label="Select"/>
-                        <form:options  items="${courseTitles}" />
+                        <form:options  items="${examTitles}" />
                     </form:select>
-                </td>
-                <td>
-                    <form:button name="submit">Select</form:button>
                 </td>
             </tr>
             </tbody>
+        </table>
+        <table align="center">
+            <tr>
+                <form:button name="submit">Select</form:button>
+            </tr>
         </table>
     </form:form>
     <br><br><br>
 </div>
 
-<p align="center"><a href="/totalPreviousExamsScore">Previous Exam Report</a></p>
+<p align="center"><a href="/studentPanel">Student Panel</a></p>
 <p align="center"><a href="/">Home</a></p>
 
 </body>

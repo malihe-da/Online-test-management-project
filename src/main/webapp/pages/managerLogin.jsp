@@ -6,7 +6,7 @@
     <title>Registration</title>
     <style>
         body{
-            background-color: lightskyblue;
+            background-color: gainsboro;
         }
         .button {
             background-color: seashell;

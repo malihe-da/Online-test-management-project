@@ -1,6 +1,7 @@
 package ir.maktab.finalproject.model.dao;
 
 import ir.maktab.finalproject.model.entity.Course;
+import ir.maktab.finalproject.model.entity.Exam;
 import ir.maktab.finalproject.model.entity.User;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @org.springframework.stereotype.Repository
@@ -25,6 +27,7 @@ public interface UserDao extends CrudRepository<User, Integer> {
 
     List<User> findAll();
     List<User> findAllByCourses(Course courses);
+
 
     @Modifying
     @Query("update User set userRole=:newRole where id=:id")

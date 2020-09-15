@@ -54,16 +54,13 @@
             <td>
                 <form:input   path="examDescription" name="examDescription"  required="required"/>
             </td>
-            <form:input type="hidden" path="examAuthorId" name="examAuthorId" value="${user.id}"/>
-            <form:input type="hidden" path="examAuthorName" name="examAuthorName" value="${user.name}"/>
-            <form:input type="hidden" path="examAuthorFamily" name="examAuthorFamily" value="${user.family}"/>
         </tr>
         <tr>
             <td>
             <label path="examStart">start exam (date and time)</label>
             </td>
             <td>
-            <form:input type="datetime-local" path="examStart" name="examStart" required="required"/>
+            <form:input type="datetime-local" path="startDate" name="examStart" required="required"/>
             </td>
         </tr>
         <tr>
@@ -71,7 +68,7 @@
             <label path="examEnd">start exam (date and time)</label>
             </td>
             <td>
-            <form:input type="datetime-local" path="examEnd" name="examEnd" required="required"/>
+            <form:input type="datetime-local" path="endDate" name="examEnd" required="required"/>
             </td>
         </tr>
         <tr></tr>
@@ -90,7 +87,7 @@
 </form:form>
 
 
-<p align="center"><a href="/teacherPanel">Manager Panel</a></p>
+<p align="center"><a href="/teacherPanel">Teacher Panel</a></p>
 <p align="center"><a href="/">Home</a></p>
 </body>
 </html>

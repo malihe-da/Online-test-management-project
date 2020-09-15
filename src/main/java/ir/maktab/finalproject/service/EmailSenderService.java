@@ -1,4 +1,4 @@
-package ir.maktab.finalproject.serevice;
+package ir.maktab.finalproject.service;
 
 import ir.maktab.finalproject.model.dao.ConfirmationTokenDao;
 import ir.maktab.finalproject.model.entity.ConfirmationToken;
