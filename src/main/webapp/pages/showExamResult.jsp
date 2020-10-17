@@ -23,18 +23,13 @@
 <div>
     <h2 style="color: darkblue">${user.name} ${user.family} </h2>
 
-    <h4 style="color: green"> The score of your exam ${examTitle}:</h4><br><br><br>
 </div>
 
-<div align="center">
-    <h2>
-        <br><br><label style="color: darkblue"> ${message} </label><br><br>
-    </h2>
-
-</div>
 <form:form  method="GET">
 
     <div align="center">
+        <h3 style="color: green"> The score of your exam ${examTitle}:</h3><br><br><br>
+        <h2>  <br><br><label style="color: darkblue"> ${message} </label><br><br> </h2>
         <table>
 
             <tr>
@@ -45,10 +40,10 @@
             </tr>
 
                 <tr>
-                    <td>${examTitle}</td>
-                    <td>${maxScore}</td>
-                    <td>${correctCounter}</td>
-                    <td>${totalScore}</td>
+                    <td align="center">${examTitle}</td>
+                    <td align="center">${maxScore}</td>
+                    <td align="center">${correctCounter}</td>
+                    <td align="center">${totalScore}</td>
 
                 </tr>
 

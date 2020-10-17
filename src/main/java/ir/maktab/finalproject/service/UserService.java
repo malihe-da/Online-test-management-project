@@ -42,7 +42,7 @@ public class UserService {
     }
 
     public void saveExamScoreToMap(AnswerSheet answerSheet) {
-        Optional<User> found = userDao.findById(answerSheet.getUser().getId());
+        Optional<User> found = userDao.findById(answerSheet.getStudent().getId());
         Exam exam = examDao.getExamById(answerSheet.getExam().getId());
         Double score = answerSheet.getTotalExamScore();
         if (found.isPresent()) {

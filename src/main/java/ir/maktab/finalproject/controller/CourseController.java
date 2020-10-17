@@ -86,13 +86,20 @@ public class CourseController {
         model.addAttribute("courseList", courseList);
         return "showAllCourses";
     }
+
     @RequestMapping(value = "/choiceCourseProcess", method = RequestMethod.GET)
     public String AddUsers(@ModelAttribute("courseDto") CourseDto courseDto, Model model) {
         Course selected = courseService.getCoursesById(courseDto.getCourseId());
+        if(selected==null){
+            model.addAttribute("message", "The selected course does not exist. Try again!");
+            List<Course> courseList = courseService.getAllCourses();
+            model.addAttribute("courseDto", new CourseDto());
+            model.addAttribute("courseList", courseList);
+            return "choiceCourse";
+        }
         List<User> userList = userService.getAllUserByTest();
         List<Course> courseList = new ArrayList<>();
         courseList.add(selected);
-        System.out.println(selected.toString());
         model.addAttribute("userList", userList);
         model.addAttribute("courseDto", courseDto);
         model.addAttribute("courseList", courseList);

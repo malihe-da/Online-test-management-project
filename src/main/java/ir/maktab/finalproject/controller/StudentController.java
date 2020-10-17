@@ -1,5 +1,6 @@
 package ir.maktab.finalproject.controller;
 
+import ir.maktab.finalproject.model.enums.Status;
 import ir.maktab.finalproject.model.enums.Type;
 import ir.maktab.finalproject.model.entity.*;
 import ir.maktab.finalproject.service.*;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 @SessionAttributes("user")
@@ -39,8 +41,8 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/studentPanel", method = RequestMethod.GET)
-    public String getStudentPannel(@ModelAttribute("user") User user,
-                                   Model model) {
+    public String getStudentPanel(@ModelAttribute("user") User user,
+                                  Model model) {
 
         List<String> courseTitles = courseService.getAllUserCourseTitle(user);
 
@@ -79,9 +81,21 @@ public class StudentController {
                                     @ModelAttribute("exam") Exam exam,
                                     Model model) {
         Exam selectedExam = examService.getExamByTitle(exam.getExamTitle());
-
-        selectedExam.setQuestionCount(selectedExam.getQuestions().size());
         model.addAttribute("user", user);
+
+        if (Objects.equals(selectedExam.getStatus(), Status.stop)) {
+            model.addAttribute("message", "The teacher has stopped the exam " + selectedExam.getExamTitle() + " you selected. You are not allowed to participate in it!");
+            Course selectedCourse = courseService.getCoursesByTitle(selectedExam.getCourse().getCourseTitle());
+            List<Exam> examList = selectedCourse.getExams();
+            List<String> examTitles = examService.getExamTitlesFromList(examList);
+            model.addAttribute("selectedCourse", selectedCourse);
+            model.addAttribute("exam", new Exam());
+            model.addAttribute("examList", examList);
+            model.addAttribute("examTitles", examTitles);
+            return "showExamsToStudent";
+
+        }
+        selectedExam.setQuestionCount(selectedExam.getQuestions().size());
         model.addAttribute("exam", selectedExam);
         return "startExamPage";
     }
@@ -108,6 +122,7 @@ public class StudentController {
         answerSheet.setQuestionsCounter(1);
         selectedExam.setQuestionCount(selectedExam.getQuestions().size());
         Question question = selectedExam.getQuestions().get(0);
+        question.setQuestionScore(selectedExam.getQuestionScoresMap().get(question));
         List<String> answerOptions = question.getAnswerOptions();
         model.addAttribute("user", user);
         model.addAttribute("exam", selectedExam);
@@ -136,7 +151,7 @@ public class StudentController {
         int questionCount = answerSheet.getQuestionsCounter() + 1;
         AnswerSheet currentAnswerSheet = answerSheetService.getAnswerSheetById(answerSheetId);
         answerSheetService.putNewAnswerInList(currentAnswerSheet, prevQuestion, answerSheet.getAnswer());
-        answerSheetService.setUserAndExamIdForAnswerSheet(currentAnswerSheet);
+        answerSheetService.setStudentAndExamIdForAnswerSheet(currentAnswerSheet);
 
 
         Exam selectedExam = examService.getExamById(currentAnswerSheet.getExamId());
@@ -144,6 +159,7 @@ public class StudentController {
 
         currentAnswerSheet.setQuestionsCounter(questionCount);
         Question question = selectedExam.getQuestions().get(questionCount - 1);
+        question.setQuestionScore(selectedExam.getQuestionScoresMap().get(question));
         List<String> answerOptions = question.getAnswerOptions();
 
         selectedExam.setStart(Calendar.getInstance().getTime());
@@ -174,16 +190,14 @@ public class StudentController {
         int questionCount = answerSheet.getQuestionsCounter() - 1;
         AnswerSheet currentAnswerSheet = answerSheetService.getAnswerSheetById(answerSheetId);
         answerSheetService.putNewAnswerInList(currentAnswerSheet, prevQuestion, answerSheet.getAnswer());
-        answerSheetService.setUserAndExamIdForAnswerSheet(currentAnswerSheet);
-
-        System.out.println(currentAnswerSheet.toString());
+        answerSheetService.setStudentAndExamIdForAnswerSheet(currentAnswerSheet);
 
         Exam selectedExam = examService.getExamById(currentAnswerSheet.getExamId());
-        System.out.println(selectedExam.toString());
         selectedExam.setQuestionCount(selectedExam.getQuestions().size());
 
         currentAnswerSheet.setQuestionsCounter(questionCount);
         Question question = selectedExam.getQuestions().get(questionCount - 1);
+        question.setQuestionScore(selectedExam.getQuestionScoresMap().get(question));
         List<String> answerOptions = question.getAnswerOptions();
 
         model.addAttribute("user", user);
@@ -209,10 +223,10 @@ public class StudentController {
         Question prevQuestion = questionService.getQuestionById(prevQuestionId);
 
         AnswerSheet currentAnswerSheet = answerSheetService.getAnswerSheetById(answerSheetId);
-        answerSheetService.putNewAnswerInList(currentAnswerSheet, prevQuestion, answerSheet.getAnswer());
-        answerSheetService.setUserAndExamIdForAnswerSheet(currentAnswerSheet);
-        Exam selectedExam = examService.getExamById(currentAnswerSheet.getExamId());
 
+        answerSheetService.putNewAnswerInList(currentAnswerSheet, prevQuestion, answerSheet.getAnswer());
+        answerSheetService.setStudentAndExamIdForAnswerSheet(currentAnswerSheet);
+        Exam selectedExam = examService.getExamById(currentAnswerSheet.getExamId());
         if (selectedExam.getExamType().equals(Type.multipleChoice)) {
             answerSheet = answerSheetService.concludeStudentExamScore(currentAnswerSheet);
             model.addAttribute("totalScore", answerSheet.getTotalExamScore());
@@ -232,9 +246,13 @@ public class StudentController {
     @RequestMapping(value = "/totalPreviousExamsScore", method = RequestMethod.GET)
     public String getPreviousExamReport(@ModelAttribute("user") User user,
                                         Model model) {
-        User currentUser = userService.getUserById(user.getId());
-        Map<Exam, Double> finalExamScore = currentUser.getFinalExamScore();
-        model.addAttribute("user", currentUser);
+
+        Map<Exam, Double> finalExamScore = user.getFinalExamScore();
+        if (finalExamScore.keySet().size() == 0) {
+            model.addAttribute("message", "No test has been registered for you!");
+
+        }
+        model.addAttribute("user", user);
         model.addAttribute("examScores", finalExamScore);
         return "showExamReport";
 

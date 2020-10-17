@@ -63,6 +63,9 @@ public class TeacherController {
                               Model model) {
         List<Exam> examList = examService.getExamsByClassification(exam.getExamClassification());
         List<String> courseClassifications = courseService.getAllCoursesClassifications();
+        if(examList.size()==0){
+            model.addAttribute("message", "No test has been defined for this course yet!");
+        }
         model.addAttribute("user", user);
         model.addAttribute("course", new Course());
         model.addAttribute("courseList", courseClassifications);
@@ -105,22 +108,27 @@ public class TeacherController {
 
         int id = Integer.parseInt(httpServletRequest.getParameter("examId"));
         Exam selectedExam = examService.getExamById(id);
-        if (selectedExam.getTeacher().getId() == user.getId()) {
-            model.addAttribute("bankQuestions", new ArrayList<>());
-            model.addAttribute("user", user);
-            model.addAttribute("question", new Question());
-            model.addAttribute("exam", selectedExam);
-            return "editSelectedExam";
-        } else {
-            model.addAttribute("message", "You select the other author to edit. It is not possible");
-            List<String> bankQuestions = questionBankService.getClassifiedQuestionsInBank(selectedExam.getExamClassification());
-            List<String> courseClassifications = courseService.getAllCoursesClassifications();
-            model.addAttribute("courseList", courseClassifications);
-            model.addAttribute("user", user);
-            model.addAttribute("bankQuestions", bankQuestions);
-            model.addAttribute("exam", new Exam());
-            return "showAllExam";
+
+        if(selectedExam!=null) {
+            if (selectedExam.getTeacher().getId() == user.getId()) {
+                model.addAttribute("bankQuestions", new ArrayList<>());
+                model.addAttribute("user", user);
+                model.addAttribute("question", new Question());
+                model.addAttribute("exam", selectedExam);
+                return "editSelectedExam";
+            } else {
+                model.addAttribute("message", "You select the other author to edit. It is not possible");
+            }
+        }else {
+            model.addAttribute("message", "The selected exam number does not exist. Try again!");
         }
+        List<String> courseClassifications = courseService.getAllCoursesClassifications();
+
+        model.addAttribute("user", user);
+        model.addAttribute("exam", new Exam());
+        model.addAttribute("courseList", courseClassifications);
+        return "showAllExam";
+
     }
 
 
@@ -230,6 +238,7 @@ public class TeacherController {
     public String determineExamStatus(@ModelAttribute("user") User user,
                                       Model model) {
 
+        System.out.println(user);
         List<Exam> examList = examService.getAllExamsOfATeacher(user);
         model.addAttribute("user", user);
         model.addAttribute("examList", examList);
@@ -244,6 +253,12 @@ public class TeacherController {
         int id = Integer.parseInt(request.getParameter("examId"));
         Exam selectedExam = examService.getExamById(id);
         model.addAttribute("user", user);
+        if(selectedExam==null){
+            model.addAttribute("message", "There is no lesson with this number. Try again!");
+            List<Exam> examList = examService.getAllExamsOfATeacher(user);
+            model.addAttribute("examList", examList);
+            return "selectExamToDetermineStatus";
+        }
         model.addAttribute("exam", selectedExam);
         return "determineStatus";
     }
@@ -269,10 +284,16 @@ public class TeacherController {
                                 Model model) {
         int id = Integer.parseInt(request.getParameter("examId"));
         Exam selectedExam = examService.getExamById(id);
+        model.addAttribute("user", user);
+        if(selectedExam==null){
+            model.addAttribute("message", "There is no lesson with this number. Try again!");
+            List<Exam> examList = examService.getAllExamsOfATeacher(user);
+            model.addAttribute("examList", examList);
+            return "selectExamToDetermineStatus";
+        }
         Course course = selectedExam.getCourse();
         int studentCount = courseService.getNumberOfStudentOfCourse(course);
         List<AnswerSheet> answerSheetList = answerSheetService.getAllAnswerSheetOfExam(selectedExam);
-        model.addAttribute("user", user);
         model.addAttribute("studentCount", studentCount);
         model.addAttribute("answerSheetList", answerSheetList);
         model.addAttribute("exam", selectedExam);
@@ -336,7 +357,7 @@ public class TeacherController {
         Question prevQuestion = questionService.getQuestionById(prevQuestionId);
         int questionCount = answerSheet.getQuestionsCounter();
         AnswerSheet currentAnswerSheet = answerSheetService.getAnswerSheetById(answerSheetId);
-        answerSheetService.setUserAndExamIdForAnswerSheet(currentAnswerSheet);
+        answerSheetService.setStudentAndExamIdForAnswerSheet(currentAnswerSheet);
         Exam selectedExam = examService.getExamById(currentAnswerSheet.getExamId());
         model.addAttribute("user", user);
 
@@ -367,8 +388,6 @@ public class TeacherController {
             model.addAttribute("questionScore", questionScore);
             model.addAttribute("answerSheet", currentAnswerSheet);
 
-            System.out.println("questionCount" + questionCount);
-            System.out.println("selectedExam.getQuestions().size()" + selectedExam.getQuestions().size());
 
             if (questionCount +1 < selectedExam.getQuestions().size()) {
                 return "correctNextDescriptiveQuestion";
@@ -397,15 +416,13 @@ public class TeacherController {
 
         Question prevQuestion = questionService.getQuestionById(prevQuestionId);
         AnswerSheet currentAnswerSheet = answerSheetService.getAnswerSheetById(answerSheetId);
-        answerSheetService.setUserAndExamIdForAnswerSheet(currentAnswerSheet);
-        answerSheetService.setUserAndExamIdForAnswerSheet(currentAnswerSheet);
+        answerSheetService.setStudentAndExamIdForAnswerSheet(currentAnswerSheet);
+        answerSheetService.setStudentAndExamIdForAnswerSheet(currentAnswerSheet);
         Exam selectedExam = examService.getExamById(currentAnswerSheet.getExamId());
         int questionCount = answerSheet.getQuestionsCounter();
-        System.out.println("questionCount " + questionCount);
+
         int number = questionService.givePreviousDescriptiveQuestion(questionCount - 1, selectedExam.getQuestions());
         ///////////////////////////////////
-        System.out.println("number " + number);
-
         selectedExam.setQuestionCount(selectedExam.getQuestions().size());
 
         currentAnswerSheet.setQuestionsCounter(number + 1);
@@ -434,7 +451,7 @@ public class TeacherController {
         Question prevQuestion = questionService.getQuestionById(prevQuestionId);
 
         AnswerSheet currentAnswerSheet = answerSheetService.getAnswerSheetById(answerSheetId);
-        answerSheetService.setUserAndExamIdForAnswerSheet(currentAnswerSheet);
+        answerSheetService.setStudentAndExamIdForAnswerSheet(currentAnswerSheet);
         Exam selectedExam = examService.getExamById(currentAnswerSheet.getExamId());
         model.addAttribute("user", user);
 
@@ -452,7 +469,6 @@ public class TeacherController {
         Double qGrade = Double.parseDouble(answerSheet.getGrade());
         answerSheetService.putAnswerGradeInList(currentAnswerSheet, prevQuestion, qGrade);
         answerSheetService.concludeTotalTeacherScoring(currentAnswerSheet);
-
         List<Exam> examList = examService.getAllDescriptiveExamOfTeacher(user);
         List<String> examTitles = examService.getExamTitlesFromList(examList);
         model.addAttribute("answerSheet", currentAnswerSheet);

@@ -71,25 +71,25 @@
         <table>
             <div class="dropdown">
 
-                    <thead>
-                    <tr>
-                        <th >Question Face</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
+                <thead>
+                <tr>
+                    <th>Question Face</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
 
-                        <td>
+                    <td>
 
-                            <input type="hidden" name="selectedExamId" value="${exam.id}">
+                        <input type="hidden" name="selectedExamId" value="${exam.id}">
 
 
-                            <form:select path="questionFace" style="width:200px">
-                                <form:option value="NONE" label="Select"/>
-                                <form:options  items="${bankQuestions}" />
-                            </form:select>
-                        </td>
-                    </tr>
+                        <form:select path="questionFace" style="width:200px">
+                            <form:option value="NONE" label="Select"/>
+                            <form:options items="${bankQuestions}"/>
+                        </form:select>
+                    </td>
+                </tr>
                 </tbody>
             </div>
         </table>
@@ -125,11 +125,12 @@
                     <tr>
                         <td>
                             <form:input type="hidden" path="examId" name="selectedExamId" value="${exam.id}"/>
-                            <form:input type="hidden" path="questionClassification"  value="${exam.examClassification}"/>
+                            <form:input type="hidden" path="questionClassification" value="${exam.examClassification}"/>
                             <form:label path="questionTitle">Question Title</form:label>
                         </td>
                         <td>
-                            <form:input path="questionTitle" name="questionTitle" maxlength="10" required="required"/><br>
+                            <form:input path="questionTitle" name="questionTitle" maxlength="10"
+                                        required="required"/><br>
                             <input value="(Limit entering up to 10 characters)">
                         </td>
                     </tr>
@@ -138,7 +139,7 @@
                             <form:label path="type">Question Type</form:label>
                         </td>
                         <td>
-                            <form:radiobutton path="type" name="type" value="descriptive"/>descriptive<br>
+                            <form:radiobutton path="type" name="type" value="descriptive" required="required"/>descriptive<br>
 
                             <form:radiobutton path="type" name="type" value="multipleChoice"/>multipleChoice
                         </td>
@@ -232,15 +233,16 @@
 <script type="text/JavaScript">
 
     function createNewElement() {
-        var counter= document.getElementById("total_chq").value;
-
+        var counter = document.getElementById("total_chq").value;
+        var boxNum = counter;
+        boxNum++;
 
         var txtNewInputBox = document.createElement('div');
 
-        txtNewInputBox.innerHTML = "<input type='text' id='newInputBox' path='answerOptions[" + counter + "]' name='answerOptions[" + counter + "]'>";
+        txtNewInputBox.innerHTML = boxNum + ")" + "<input type='text' id='newInputBox' path='answerOptions[" + counter + "]' name='answerOptions[" + counter + "]'>";
 
         counter++;
-        document.getElementById("total_chq").value= counter;
+        document.getElementById("total_chq").value = counter;
         document.getElementById("newElementId").appendChild(txtNewInputBox);
     }
 

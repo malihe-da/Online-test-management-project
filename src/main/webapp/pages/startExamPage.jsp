@@ -31,7 +31,7 @@
 </head>
 <body>
 <div>
-    <h3>${user.name} ${user.family} ${user.id}, exam page</h3>
+    <h3>${user.name} ${user.family}, exam page</h3>
 </div>
 
 <div align="center">

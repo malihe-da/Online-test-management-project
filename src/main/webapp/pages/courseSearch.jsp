@@ -5,6 +5,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>CourseSearch</title>
     <style type="text/css">
+        .container {
+            display: flex;
+        }
+
+        nav {
+            width: 50vh;
+            height: 10vh;
+        }
         body{
             background-color: lightsteelblue;
         }
@@ -15,12 +23,16 @@
     </style>
 </head>
 <body>
+
+<div class="container">
+    <nav></nav>
+</div>
+<div align="center">
+    <h2 style="color: darkblue">Enter course title or it's classification for search</h2>
+</div>
 <form:form modelAttribute="course" action="courseSearchProcess" method="GET">
     <table align="center">
         <tr>
-            <td>
-                <form:input path="id" name="courseId" placeHolder="courseId"/>
-            </td>
             <td>
                 <form:input path="courseTitle" name="courseTitle" placeHolder="courseTitle"/>
             </td>

@@ -45,12 +45,12 @@
     </tr>
     <c:forEach items="${userList}" var="user" >
         <tr>
-            <td>${user.id}</td>
-            <td>${user.name}</td>
-            <td>${user.family}</td>
-            <td>${user.userRole}</td>
-            <td>${user.emailAddress}</td>
-            <td>${user.status}</td>
+            <td align="center">${user.id}</td>
+            <td align="center">${user.name}</td>
+            <td align="center">${user.family}</td>
+            <td align="center">${user.userRole}</td>
+            <td align="center">${user.emailAddress}</td>
+            <td align="center">${user.status}</td>
         </tr>
     </c:forEach>
 </table>

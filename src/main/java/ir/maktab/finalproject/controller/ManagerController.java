@@ -65,7 +65,7 @@ public class ManagerController {
         List<User> userList = userService.findMaxMatch(user.getId(),user.getUserRole(),
                 user.getName(), user.getFamily(), user.getStatus());
         model.addAttribute("userList", userList);
-        System.out.println(userList.toString());
+
         return "showAllUsers";
     }
     @RequestMapping(value = "/editUserProcess", method = RequestMethod.GET)

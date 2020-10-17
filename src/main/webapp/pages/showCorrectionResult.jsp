@@ -33,7 +33,7 @@
 <form:form modelAttribute="exam" action="answerSheer-correction-process" method="GET">
 
     <div align="center">
-        <h4 style="color: green"> Result</h4><br>
+        <h2sddd2 style="color: green"> Result</h2sddd2><br>
         <table>
 
             <tr>
@@ -44,10 +44,10 @@
             </tr>
 
             <tr>
-                <td>${exam.examTitle}</td>
-                <td>${exam.examMaxScore}</td>
-                <td>${answerSheet.user.name} ${answerSheet.user.family}</td>
-                <td>${answerSheet.totalExamScore}</td>
+                <td align="center">${exam.examTitle}</td>
+                <td align="center">${exam.examMaxScore}</td>
+                <td align="center">${answerSheet.student.name} ${answerSheet.student.family}</td>
+                <td align="center">${answerSheet.totalExamScore}</td>
 
             </tr>
         </table>

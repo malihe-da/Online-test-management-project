@@ -6,10 +6,12 @@ import ir.maktab.finalproject.model.entity.Exam;
 import ir.maktab.finalproject.model.entity.Question;
 import ir.maktab.finalproject.model.entity.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
+@Transactional
 public class AnswerSheetService {
 
     AnswerSheetDao answerSheetDao;
@@ -32,39 +34,47 @@ public class AnswerSheetService {
 
 
     public List<AnswerSheet> selectUncorrectedAnswerSheet(Exam exam) {
+
         List<AnswerSheet> answerSheets = getAllAnswerSheetOfExam(exam);
-        System.out.println(answerSheets.toString());
         List<AnswerSheet> uncorrected = new ArrayList<>();
         for (AnswerSheet ans :
                 answerSheets) {
 
-            if (ans.getUserQuestionScore().size()<exam.getQuestions().size())
+            if (ans.getUserQuestionScore().size() < exam.getQuestions().size())
                 uncorrected.add(ans);
         }
         return uncorrected;
     }
 
     public AnswerSheet saveAnswerSheet(AnswerSheet answerSheet) {
-        answerSheet.setUser(userService.getUserById(answerSheet.getUserId()));
+        answerSheet.setStudent(userService.getUserById(answerSheet.getStudentId()));
         answerSheet.setExam(examService.getExamById(answerSheet.getExamId()));
         return answerSheetDao.save(answerSheet);
     }
 
     public void putNewAnswerInList(AnswerSheet answerSheet, Question question, String answer) {
-        answerSheet.addAnswerSheet(question, answer);
+        String result = "";
+        if ((answer != null) && (answer.length() > 0)) {
+            if (answer.charAt(answer.length() - 1) == ',') {
+                result = answer.substring(0, answer.length() - 1);
+            } else {
+                result = answer;
+            }
+        }
+
+        answerSheet.addAnswerSheet(question, result);
         answerSheetDao.save(answerSheet);
     }
 
-    public void setUserAndExamIdForAnswerSheet(AnswerSheet answerSheet) {
-        answerSheet.setUserId(answerSheet.getUser().getId());
+    public void setStudentAndExamIdForAnswerSheet(AnswerSheet answerSheet) {
+        answerSheet.setStudentId(answerSheet.getStudent().getId());
         answerSheet.setExamId(answerSheet.getExam().getId());
     }
 
     public boolean isFirstTime(User user, Exam exam) {
-        Optional<AnswerSheet> found = answerSheetDao.getAnswerSheetByUserAndExam(user, exam);
+        Optional<AnswerSheet> found = answerSheetDao.getAnswerSheetByStudentAndExam(user, exam);
         return (found.isPresent());
     }
-
 
 
     public AnswerSheet concludeStudentExamScore(AnswerSheet answerSheet) {
@@ -79,7 +89,10 @@ public class AnswerSheetService {
             if (userAnswerSheet.get(question) != null) {
 
                 if (question.getType().equals("multipleChoice")) {
-                    if (question.getKeyAnswer().equals(userAnswerSheet.get(question))) {
+                    String keyAnswer = question.getKeyAnswer();
+                    String userAnswer = userAnswerSheet.get(question);
+
+                    if (keyAnswer.equals(userAnswer)) {
                         userQuestionScore.put(question, questionScoresMap.get(question));
                         totalScore += questionScoresMap.get(question);
                         correctCounter += 1;
@@ -115,6 +128,7 @@ public class AnswerSheetService {
             totalScore += userQuestionScore.get(question);
         }
         answerSheet.setTotalExamScore(totalScore);
+        userService.saveExamScoreToMap(answerSheet);
         answerSheetDao.save(answerSheet);
     }
 }

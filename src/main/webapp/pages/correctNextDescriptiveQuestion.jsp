@@ -23,6 +23,8 @@
 
 
 <form:form modelAttribute="answerSheet" action="correctNextQuestion" method="GET">
+    <%--<p style="color: darkslategray"> ${answerSheet.user.name} ${answerSheet.user.family} answer sheet</p>--%>
+
     <div align="center">
         <h2>Question:</h2>
         <h3>${answerSheet.questionsCounter}) ${question.questionFace} (Question Score: ${questionScore})</h3><br>

@@ -28,7 +28,8 @@ public class EmailSenderService {
         mailMessage.setSubject("Please Complete Maktab Registration");
         mailMessage.setFrom(env.getProperty("from.address"));
         mailMessage.setText("To confirm your account, please click here : "
-                + env.getProperty("link") + confirmationToken.getConfirmationToken());
+                + env.getProperty("linkStart")+ env.getProperty("server.port")+ env.getProperty("linkEnd")
+                + confirmationToken.getConfirmationToken());
 
         sendEmail(mailMessage);
     }

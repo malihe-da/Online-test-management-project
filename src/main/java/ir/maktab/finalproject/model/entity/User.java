@@ -1,5 +1,6 @@
 package ir.maktab.finalproject.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -19,39 +20,39 @@ public class User {
     int id;
     String name;
     String family;
+    @JsonIgnore
     String password;
     String userRole;
     String emailAddress;
     String status;
     boolean isEnabled;
-    @JsonManagedReference
-    @ManyToMany(mappedBy = "users")
+    /*@JsonManagedReference*/
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
+    @JsonIgnore
     List<Course> courses = new ArrayList<>();
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @MapKeyJoinColumn(name = "exam_id")
+    @JsonIgnore
     Map<Exam, Double> finalExamScore;
-    @OneToMany(mappedBy = "teacher", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    @JsonIgnore
     List<Exam> teacherRegisteredExams;
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @JsonIgnore
+    List<AnswerSheet> answerSheetList;
     @Transient
-    List<String > userAnswerSheet;
-
+    @JsonIgnore
+    List<String> userAnswerSheet;
 
     @Override
     public String toString() {
-        String courseList="";
-        for (Course cr:
-             courses) {
-            courseList = courseList + cr.getCourseTitle() + " ";
-        }
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", family='" + family + '\'' +
                 ", userRole='" + userRole + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                ", status='" + status + '\'' +
-                ", isEnabled=" + isEnabled +
-                ", courses=" + courseList +
+                ", courses=" + courses +
+                ", userAnswerSheet=" + userAnswerSheet +
                 '}';
     }
 }

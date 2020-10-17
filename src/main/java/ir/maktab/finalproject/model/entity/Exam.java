@@ -1,5 +1,6 @@
 package ir.maktab.finalproject.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ir.maktab.finalproject.model.enums.Status;
 import ir.maktab.finalproject.model.enums.Type;
 import lombok.AllArgsConstructor;
@@ -35,13 +36,16 @@ public class Exam {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     Date endDate;
     int duration;
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL)
+    @JsonIgnore
+    List<AnswerSheet> answerSheetList;
     @ManyToMany(cascade = CascadeType.ALL)
     List<Question> questions = new ArrayList<>();
     String examCourseTitle;
     Double examMaxScore;
     @ElementCollection
     @MapKeyJoinColumn(name = "question_id")
-    Map<Question, Double> questionScoresMap;
+    Map<Question, Double> questionScoresMap = new HashMap<>();
     Type examType;
 
     @Transient

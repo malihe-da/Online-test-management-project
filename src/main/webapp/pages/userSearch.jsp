@@ -6,6 +6,14 @@
     <title>UserSearch</title>
 
     <style>
+        .container {
+            display: flex;
+        }
+
+        nav {
+            width: 50vh;
+            height: 10vh;
+        }
         body {
             background-color: lightsteelblue;
         }
@@ -16,6 +24,14 @@
     </style>
 </head>
 <body>
+
+
+<div class="container">
+    <nav></nav>
+</div>
+<div align="center">
+    <h2 style="color: darkblue">Use the following fields to search</h2>
+</div>
 <form:form modelAttribute="user" action="userSearchProcess" method="GET">
     <table align="center">
 
@@ -60,9 +76,38 @@
 
     </table>
 </form:form>
-
+<%--
+<form>
+    <input id="firstName">name
+    <input id="lastName">family
+</form>
+<button onclick="search()">Search</button>--%>
 
 <p align="center"><a href="/">Home</a></p>
 <p align="center"><a href="/managerPanel">Manager Panel</a></p>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    function search() {
+        var search = {
+            "name": document.getElementById("firstName").value,
+            "family": document.getElementById("lastName").value
+        }
+        console.log(search);
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+           /* dataType: 'json',*/
+            url: "http://localhost:8082/rest/searchUser",
+            data: /*JSON.stringify*/search,
+            success: function (result) {
+                console.log(result);
+            },
+            done: function (e) {
+                console.log("DONE");
+            }
+        });
+    }
+</script>
 </body>
 </html>

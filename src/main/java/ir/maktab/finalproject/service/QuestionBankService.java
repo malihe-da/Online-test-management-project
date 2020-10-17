@@ -5,11 +5,13 @@ import ir.maktab.finalproject.model.dao.QuestionDao;
 import ir.maktab.finalproject.model.entity.Question;
 import ir.maktab.finalproject.model.entity.QuestionsBank;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class QuestionBankService {
 
     QuestionBankDao questionBankDao;

@@ -22,22 +22,15 @@ public class Course {
     int id;
     String courseTitle;
     String courseClassification;
-    @JsonBackReference
+    /*@JsonBackReference*/
     @ManyToMany(cascade = CascadeType.ALL)
     @Fetch(value = FetchMode.SUBSELECT)
+    @JsonIgnore
     List<User> users = new ArrayList<>();
     @OneToMany(mappedBy="course", cascade=CascadeType.ALL)
+    @JsonIgnore
     List<Exam> exams;
 
 
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", courseTitle='" + courseTitle + '\'' +
-                ", courseClassification='" + courseClassification + '\'' +
-                ", users=" + users +
-                ", exams=" + exams +
-                '}';
-    }
+
 }

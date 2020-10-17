@@ -15,7 +15,7 @@ public interface AnswerSheetDao extends CrudRepository<AnswerSheet, Integer> {
 
     AnswerSheet save(AnswerSheet answerSheet);
 
-    Optional<AnswerSheet> getAnswerSheetByUserAndExam(User user, Exam exam);
+    Optional<AnswerSheet> getAnswerSheetByStudentAndExam(User student, Exam exam);
 
     List<AnswerSheet> getAnswerSheetByExam(Exam exam);
 }

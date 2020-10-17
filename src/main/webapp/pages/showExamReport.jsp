@@ -23,20 +23,20 @@
 <div>
     <h2 style="color: darkblue">${user.name} ${user.family} </h2>
 
-    <h4 style="color: green"> Exams Report ${examTitle}:</h4><br><br><br>
 </div>
 
 <div align="center">
     <h2>
-        <br><br><label style="color: darkblue"> ${message} </label><br><br>
+        <br><br><label style="color: crimson"> ${message} </label><br><br>
     </h2>
 
 </div>
 <form:form  method="GET">
 
     <div align="center">
-        <table>
 
+        <table>
+            <h4 style="color: green"> Exams Report:</h4><br><br><br>
             <tr>
                 <th>Exam Title</th>
                 <th>Max Score</th>
@@ -44,9 +44,9 @@
             </tr>
             <c:forEach items="${examScores}" var="exam" varStatus="status">
                 <tr>
-                    <td>${exam.key.examTitle}</td>
-                    <td>${exam.key.examMaxScore}</td>
-                    <td>${exam.value}</td>
+                    <td align="center">${exam.key.examTitle}</td>
+                    <td align="center">${exam.key.examMaxScore}</td>
+                    <td align="center">${exam.value}</td>
                 </tr>
             </c:forEach>
 

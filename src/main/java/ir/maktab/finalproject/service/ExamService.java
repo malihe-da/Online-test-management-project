@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -85,7 +86,6 @@ public class ExamService {
         }
         examDao.save(exam);
         Exam exam1 = examDao.getExamByExamTitle(exam.getExamTitle());
-        System.out.println(exam1.toString());
         courseService.addExamToList(exam1);
     }
 
@@ -143,13 +143,15 @@ public class ExamService {
     }
 
     public List<String> getExamTitlesFromList(List<Exam> examList) {
-        List<String> examTitle = new ArrayList<>();
-
+        /*List<String> examTitle = new ArrayList<>();
         for (Exam exam : examList) {
             examTitle.add(exam.getExamTitle());
         }
-
         return examTitle;
+        */
+
+        return examList.stream().map(Exam::getExamTitle).collect(Collectors.toList());
+
     }
 
 
@@ -160,14 +162,16 @@ public class ExamService {
     public Exam saveQuestionsScoreFromArray(Exam exam, String[] values) {
         questionList = exam.getQuestions();
         Double maxScore = 0.0;
-        Map<Question, Double> questionScores = new HashMap<>();
+        Map<Question, Double> questionScores = exam.getQuestionScoresMap();
         for (int i = 0; i < exam.getQuestions().size(); i++) {
-            Double score = Double.parseDouble(values[i]);
-            maxScore = maxScore + score;
+            if(values.length>=i+1) {
+                Double score = Double.parseDouble(values[i]);
+                maxScore = maxScore + score;
 
-            Question question = questionList.get(i);
-            question.setQuestionScore(score);
-            questionScores.put(question, score);
+                Question question = questionList.get(i);
+                question.setQuestionScore(score);
+                questionScores.put(question, score);
+            }
         }
         exam.setExamMaxScore(maxScore);
         exam.setQuestionScoresMap(questionScores);

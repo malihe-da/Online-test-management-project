@@ -37,12 +37,12 @@
 
     <c:forEach items="${examList}" var="exam">
         <tr>
-            <td>${exam.examTitle}</td>
-            <td>${exam.examDescription}</td>
-            <td>${exam.examClassification}</td>
-            <td>${exam.teacher.name} ${exam.teacher.family}</td>
-            <td>${exam.duration} (min)</td>
-            <td>${exam.examMaxScore} (min)</td>
+            <td align="center">${exam.examTitle}</td>
+            <td align="center">${exam.examDescription}</td>
+            <td align="center">${exam.examClassification}</td>
+            <td align="center">${exam.teacher.name} ${exam.teacher.family}</td>
+            <td align="center">${exam.duration} (min)</td>
+            <td align="center">${exam.examMaxScore} </td>
         </tr>
     </c:forEach>
 </table>
@@ -52,7 +52,9 @@
     <form:form modelAttribute="exam" action="examStartProcess" method="GET">
 
         <div align="center">
-            <br><br><h3>Select Exam</h3>
+
+            <h2><br><label style="color: crimson"> ${message} </label><br> </h2>
+            <br><h3>Select Exam</h3>
             <p>${user.name}, select the Exam Title to start the exams </p>
         </div>
 

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.HashMap;
@@ -20,11 +22,11 @@ public class AnswerSheet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @ManyToOne(targetEntity=User.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id")
+    private User student;
     private Double totalExamScore = 0.0;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity=Exam.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "exam_id")
     private Exam exam;
     @ElementCollection
@@ -35,7 +37,7 @@ public class AnswerSheet {
     Map<Question, Double> userQuestionScore = new HashMap<>();
 
     @Transient
-    int userId;
+    int studentId;
     @Transient
     int examId;
     @Transient
@@ -48,7 +50,7 @@ public class AnswerSheet {
     String grade;
 
     public AnswerSheet(int userId, int examId) {
-        this.userId = userId;
+        this.studentId = userId;
         this.examId = examId;
     }
 
@@ -64,12 +66,11 @@ public class AnswerSheet {
     public String toString() {
         return "AnswerSheet{" +
                 "id=" + id +
-                ", user=" + user +
+                ", user=" + student +
                 ", totalExamScore=" + totalExamScore +
-                ", exam=" + exam +
                 ", userAnswerSheet=" + userAnswerSheet +
                 ", userQuestionScore=" + userQuestionScore +
-                ", userId=" + userId +
+                ", userId=" + studentId +
                 ", examId=" + examId +
                 ", answer='" + answer + '\'' +
                 ", questionsCounter=" + questionsCounter +

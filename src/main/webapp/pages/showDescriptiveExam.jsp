@@ -10,11 +10,7 @@
 </head>
 
 <body>
-<div align="center">
-    <h3>
-        <label style="color: crimson"> ${message} </label>
-    </h3>
-</div>
+
 
 <div align="center">
     <h3 style="color:darkgreen">List of descriptive Exam:</h3>
@@ -59,7 +55,10 @@
         <form:form modelAttribute="exam" action="answerSheer-correction-process" method="GET">
 
             <div align="center">
-                <br><br><h3>Select Exam</h3>
+                <h2>
+                    <label style="color: crimson"> ${message} </label>
+                </h2>
+                <h3>Select Exam</h3>
                 <p>${user.family}, select the Exam Title to correct the exam sheets</p>
             </div>
 

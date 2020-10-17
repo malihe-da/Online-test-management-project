@@ -33,10 +33,10 @@
 
         <c:forEach items="${courseList}" var="course">
             <tr>
-                <td>${course.id}</td>
-                <td>${course.courseTitle}</td>
-                <td>${course.courseClassification}</td>
-                <td><c:forEach items="${course.users}" var="user">
+                <td align="center">${course.id}</td>
+                <td align="center">${course.courseTitle}</td>
+                <td align="center">${course.courseClassification}</td>
+                <td align="center"><c:forEach items="${course.users}" var="user">
                     ${user.name}
                     ${user.family}
                 </c:forEach>
@@ -60,12 +60,12 @@
         </tr>
         <c:forEach items="${userList}" var="user">
             <tr>
-                <td>${user.id}</td>
-                <td>${user.name}</td>
-                <td>${user.family}</td>
-                <td>${user.userRole}</td>
-                <td>${user.emailAddress}</td>
-                <td>${user.status}</td>
+                <td align="center">${user.id}</td>
+                <td align="center">${user.name}</td>
+                <td align="center">${user.family}</td>
+                <td align="center">${user.userRole}</td>
+                <td align="center">${user.emailAddress}</td>
+                <td align="center">${user.status}</td>
             </tr>
         </c:forEach>
     </table>

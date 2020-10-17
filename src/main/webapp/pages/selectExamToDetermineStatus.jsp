@@ -14,13 +14,11 @@
     <h2 style="color: darkblue">${user.name} ${user.family} panel!</h2>
 </div>
 <div align="center">
-    <h3>
-        <label style="color: crimson"> ${message} </label>
-    </h3>
+
 </div>
 
 <div align="center">
-    <h3 style="color:darkgreen">${user.name} ${user.family}, you can define an exam here!</h3>
+    <h3 style="color:darkgreen">Exam List</h3>
 </div>
 
 
@@ -40,18 +38,21 @@
 
             <c:forEach items="${examList}" var="exam">
                 <tr>
-                    <td>${exam.id}</td>
-                    <td>${exam.examTitle}</td>
-                    <td>${exam.examClassification}</td>
-                    <td>${exam.examDescription}</td>
-                    <td>${exam.status.text}</td>
-                    <td>${exam.startDate}</td>
-                    <td>${exam.endDate}</td>
+                    <td align="center">${exam.id}</td>
+                    <td align="center">${exam.examTitle}</td>
+                    <td align="center">${exam.examClassification}</td>
+                    <td align="center">${exam.examDescription}</td>
+                    <td align="center">${exam.status.text}</td>
+                    <td align="center">${exam.startDate}</td>
+                    <td align="center">${exam.endDate}</td>
                 </tr>
             </c:forEach>
         </table>
     </div>
     <br><br><br>
+    <h3 align="center">
+        <label style="color: crimson"> ${message} </label>
+    </h3>
 </form:form>
 
 <div class="container" class="container" position="flex">

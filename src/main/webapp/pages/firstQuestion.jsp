@@ -21,7 +21,7 @@
 </head>
 <body>
 <div>
-    <h3>${user.name} ${user.family} ${user.id}, exam page</h3>
+    <h3>${user.name} ${user.family}, exam page</h3>
 </div>
 
 
@@ -30,14 +30,14 @@
 <form:form modelAttribute="answerSheet" action="nextQuestion" method="GET">
     <div align="center">
         <h2>Question:</h2>
-        <p>${answerSheet.questionsCounter}) ${question.questionFace}</p><br><br>
+        <p>${answerSheet.questionsCounter}) ${question.questionFace} (Question Score: ${question.questionScore})</p><br><br>
         <input type="hidden" name="questionId" value="${question.id}">
         <input type="hidden" name="answerSheetId" value="${answerSheet.id}">
 
         <input type="hidden" name="remainTime" value=""/>
     </div>
     <div align="center">
-        <h4>For multiple choice questions,
+        <h4 style="color: green">For multiple choice questions,
             select only one option and for descriptive questions only, write the answer in the box below:</h4>
         <input type="hidden" path="questionsCounter" name="questionsCounter" value="${answerSheet.questionsCounter}">
         <p><form:radiobuttons path="answer" items="${answerOptions}"/></p><br>

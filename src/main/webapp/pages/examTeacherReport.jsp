@@ -31,11 +31,13 @@
 <table>
     <tr>
         <th>Exam Title</th>
-        <th>Number of Student</th>
+        <th>Number of Students</th>
+        <th>Exam Status</th>
     </tr>
     <tr>
-        <td>${exam.examTitle}</td>
-        <td>${studentCount}</td>
+        <td align="center">${exam.examTitle}</td>
+        <td align="center">${studentCount}</td>
+        <td align="center">${exam.status.text}</td>
     </tr>
 </table>
 </div>
@@ -49,13 +51,15 @@
                 <th>Student Name</th>
                 <th>Student Family</th>
                 <th>Exam Score</th>
+
             </tr>
 
             <c:forEach items="${answerSheetList}" var="answerSheet">
                 <tr>
-                    <td>${answerSheet.user.name}</td>
-                    <td>${answerSheet.user.family}</td>
-                    <td>${answerSheet.totalExamScore}</td>
+                    <td align="center">${answerSheet.student.name}</td>
+                    <td align="center">${answerSheet.student.family}</td>
+                    <td align="center">${answerSheet.totalExamScore}</td>
+
                 </tr>
             </c:forEach>
 

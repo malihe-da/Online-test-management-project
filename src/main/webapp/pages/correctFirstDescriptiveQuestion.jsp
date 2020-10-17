@@ -29,6 +29,7 @@
 </div>
 
 <form:form modelAttribute="answerSheet" action="correctNextQuestion" method="GET">
+    <%--<p style="color: darkslategray"> ${answerSheet.user.name} ${answerSheet.user.family} answer sheet</p>--%>
     <div align="center">
         <h2>Question:</h2>
         <h3>${answerSheet.questionsCounter}) ${question.questionFace} (Question Score: ${questionScore})</h3><br>
@@ -38,8 +39,7 @@
 
     </div>
     <div align="center">
-        <h3>Student Answer:</h3>
-        <p style="font-size: large; color: darkblue" > ${answerSheet.userAnswerSheet.get(question)}</p>
+        <p style="font-size: larger; color: darkblue" > Student Answer: ${answerSheet.userAnswerSheet.get(question)}</p>
         <input type="hidden" path="questionsCounter" name="questionsCounter" value="${answerSheet.questionsCounter}">
     </div>
 

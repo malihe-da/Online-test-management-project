@@ -24,10 +24,9 @@
 
 
 <form:form modelAttribute="answerSheet" action="completeCorrection" method="GET">
+    <%--<p style="color: darkslategray"> ${answerSheet.user.name} ${answerSheet.user.family} answer sheet</p>--%>
+
     <div align="center">
-        <h4>
-            ${answerSheet.user.name}  ${answerSheet.user.family} answersheet:
-        </h4>
         <h2>Question:</h2>
         <h3>${answerSheet.questionsCounter}) ${question.questionFace} (Question Score: ${questionScore})</h3><br>
         <p style="color: seagreen"> key Answer: ${question.keyAnswer}</p><br>

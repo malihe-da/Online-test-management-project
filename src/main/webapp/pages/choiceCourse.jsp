@@ -44,7 +44,11 @@
         </c:forEach>
     </table>
 <div align="center">
-    <h3 style="color: crimson">Please enter the Id of chosen course</h3>
+    <h4 style="color: darkblue">Please enter the Id of chosen course</h4>
+
+        <h3>
+            <label style="color: crimson"> ${message} </label>
+        </h3>
 </div>
 
     </table>

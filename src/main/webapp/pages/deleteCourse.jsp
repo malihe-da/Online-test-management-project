@@ -31,9 +31,9 @@
 
     <c:forEach items="${courseList}" var="course">
     <tr>
-        <td>${course.id}</td>
-        <td>${course.courseTitle}</td>
-        <td>${course.courseClassification}</td>
+        <td align="center">${course.id}</td>
+        <td align="center">${course.courseTitle}</td>
+        <td align="center">${course.courseClassification}</td>
     </tr>
     </c:forEach>
 </table>

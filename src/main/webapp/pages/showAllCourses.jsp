@@ -5,6 +5,14 @@
 <head>
     <title>Course List</title>
     <style type="text/css">
+        .container {
+            display: flex;
+        }
+
+        nav {
+            width: 50vh;
+            height: 10vh;
+        }
         body{
             background-color: aquamarine;
         }
@@ -15,11 +23,15 @@
     </style>
 </head>
 <body>
-
+<head>
+   <h2 style="color: darkgreen" align="center"> Course List:</h2>
+</head>
+<div class="container">
+    <nav></nav>
+</div>
 <table align="center">
 
     <tr>
-        <th>Course Id</th>
         <th>Course Title</th>
         <th>Course Classification</th>
         <th>Course Members</th>
@@ -27,10 +39,9 @@
 
     <c:forEach items="${courseList}" var="course"  >
         <tr>
-            <td>${course.id}</td>
-            <td>${course.courseTitle}</td>
-            <td>${course.courseClassification}</td>
-            <td> <c:forEach items="${course.users}" var="user"  >
+            <td align="center">${course.courseTitle}</td>
+            <td align="center">${course.courseClassification}</td>
+            <td align="center"> <c:forEach items="${course.users}" var="user"  >
                     ${user.name}
                     ${user.family}
             </c:forEach>

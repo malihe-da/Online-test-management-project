@@ -29,7 +29,7 @@
 <form:form modelAttribute="answerSheet" action="examFinished" method="GET">
     <div align="center">
         <h2>Question:</h2>
-        <p>${answerSheet.questionsCounter}) ${question.questionFace}</p><br><br>
+        <p>${answerSheet.questionsCounter}) ${question.questionFace}  (Question Score: ${question.questionScore})</p><br><br>
         <input type="hidden" name="questionId" value="${question.id}">
         <input type="hidden" name="answerSheetId" value="${answerSheet.id}">
         <input type="hidden" name="remainTime" value=""/>

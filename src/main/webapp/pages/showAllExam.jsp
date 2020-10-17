@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>Fill Course</title>
+    <title>All Exams</title>
     <style>
         body {
             background-color: gainsboro;
@@ -50,15 +50,7 @@
 <div>
     <h2 style="color: darkblue">${user.name} ${user.family} panel!</h2>
 </div>
-<div align="center">
-    <h3>
-        <label style="color: crimson"> ${message} </label>
-    </h3>
-</div>
 
-<div align="center">
-    <h3 style="color:darkgreen">${user.name} ${user.family}, you can define an exam here!</h3>
-</div>
 
 <form:form modelAttribute="exam" action="showSelectedCourseExam" method="GET">
     <div align="center">
@@ -93,20 +85,23 @@
 
         <c:forEach items="${examList}" var="exam">
             <tr>
-                <td>${exam.id}</td>
-                <td>${exam.examTitle}</td>
-                <td>${exam.examClassification}</td>
-                <td>${exam.examDescription}</td>
-                <td>${exam.teacher.name}</td>
-                <td>${exam.teacher.family}</td>
-                <td>${exam.startDate}</td>
-                <td>${exam.endDate}</td>
+                <td align="center">${exam.id}</td>
+                <td align="center">${exam.examTitle}</td>
+                <td align="center">${exam.examClassification}</td>
+                <td align="center">${exam.examDescription}</td>
+                <td align="center">${exam.teacher.name}</td>
+                <td align="center">${exam.teacher.family}</td>
+                <td align="center">${exam.startDate}</td>
+                <td align="center">${exam.endDate}</td>
             </tr>
         </c:forEach>
     </table>
         </div>
     </form:form>
     <div align="center">
+        <h2>
+            <label style="color: crimson"> ${message} </label>
+        </h2>
         <h3 style="color:darkgreen ">Enter the exam you want to edit</h3>
     </div>
 

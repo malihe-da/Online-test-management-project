@@ -100,7 +100,6 @@ public class QuestionService {
     }
 
     public boolean teacherScoringValidate(String grade, Double aDouble) {
-        System.out.println(grade);
         if (grade == null) {
             return false;
         }
